@@ -1,6 +1,6 @@
 Given OneShot's nature, just closing the game becomes a hassle when repeated often, especially if you're testing a long cutscene and need to cut it in the middle.
 
-You can use either the task manager or this script to kill OneShot:
+You can use either the task manager, or this script to kill OneShot faster:
 ```batch
 taskkill /F /IM oneshot.exe
 ```
