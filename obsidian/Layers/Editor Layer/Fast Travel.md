@@ -18,6 +18,8 @@ For example, traveling to the first Barrens map looks like so:
 
 Fast traveling to this destination will then place the player where the event is.
 
+---
+
 ## Presentation
 
 Now you must define the name of the zone, and the name of the destination, which is done in the `Data_FastTravel` script.

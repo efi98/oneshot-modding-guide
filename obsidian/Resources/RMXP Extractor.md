@@ -18,8 +18,8 @@ It can be, depending on whether or not you can read JSON or YAML.
 You don't need to be a programmer for that, they're just text formats describing data in a readable manner.
 See the examples section at the end of this document.
 
-
 ---
+
 ## Setup
 1) Download and install Ruby.
 2) Open a terminal/console, and execute `gem install rmxp_extractor`
@@ -35,8 +35,8 @@ rmxp_extractor import json scripts
 
 You only need to repeat `1)` and `2)` once per system, the rest are to be repeated per project.
 
-
 ---
+
 ## Exporting
 Now every time you run `extract.bat`, it should create two folders next to it:
 - `Data_JSON`, which contains all the `.rxdata` in a JSON format.
@@ -44,8 +44,8 @@ Now every time you run `extract.bat`, it should create two folders next to it:
 
 Keep in mind that modifying the extracted content will have no effect on the game, it's simply a copy in a different format.
 
-
 ---
+
 ## Importing
 If you've made changes to the extracted content which you do want in the game, you can perform the inverse operation to pack the data back up into `.rxdata` for the game.
 
@@ -57,8 +57,8 @@ Since it will override data with what was exported, doing something like exporti
 
 #TODO: There's a bug in the `import` command that doesn't pack up script commands properly. look into it.
 
-
 ---
+
 ## Some Examples
 
 Here's a short example for how to search for text in the game:

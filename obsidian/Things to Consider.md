@@ -3,6 +3,7 @@ Here are a few things you should consider before diving in further.
 They're not here to deter or intimidate, but provide food for thought.
 
 ---
+
 > Does it have to be a mod?
 
 Making a mod for your idea may sound exciting, but it may not be the correct choice.
@@ -10,6 +11,7 @@ For instance, if your entire project would essentially be one long cutscene, may
 Remember that games are an *interactive medium*, and that OneShot specifically revolves around the idea of the player being part of the story.
 
 ---
+
 > Why not a fan game?
 
 You could mod OneShot, or you could make a completely stand alone fan game instead.
@@ -33,6 +35,7 @@ Each has their pros and cons, but the gist of it is that it's a trade between fr
 \*- The limit is how experienced and determined of a programmer you are, given that you can modify the engine and scripts.
 
 ---
+
 > What's the scope of the project?
 
 What kind of changes do you intend to make?
@@ -41,6 +44,7 @@ Is it just an asset swap, or something that implements crazy meta elements?
 See [[Layers]].
 
 ---
+
 > Solo project, or collaboration?
 
 And what kind of work will collaborators be doing?

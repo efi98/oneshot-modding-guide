@@ -29,8 +29,8 @@ See [[Save Directory]] if you're a mod maker - It's very important.
 
 
 ## Save Generator
-hat_kid made a web page where you can generate a vanilla OneShot save file at certain states and/or a different player name:
-https://hatkid.is-a.dev/OneShot-SaveMaker/p-settings-generate.html
+hat_kid made a web page where you can generate a vanilla OneShot save file at certain states and/or a different player name.
+Available [here](https://hatkid.is-a.dev/OneShot-SaveMaker/p-settings-generate.html).
 
 
 ## Installing Mods
