@@ -1,0 +1,86 @@
+@font-face {
+  font-family: 'Terminus TTF';
+  src: url('TerminusTTF.ttf') format('truetype');
+}
+
+p {
+  white-space: pre-wrap;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  color: white;
+}
+
+
+code {
+  background: #202746;
+  padding: 0 4px;
+  margin: 0 -4px;
+}
+
+a:link {
+  color: #FFFF00;
+}
+
+a:visited {
+  color: #FFFF00;
+}
+
+a:hover {
+  color: #FFFF00;
+}
+
+a:active {
+  color: #FFFF00;
+}
+
+.copy-code-block-button {
+  position: absolute;
+  right: 8px;
+}
+
+html,
+body {
+  height: 100%;
+  margin: 0;
+  color: #F3F3F3;
+}
+
+img,
+video {
+  max-width: 100%;
+}
+
+.layout {
+  display: flex;
+  height: 100%;
+}
+
+.side {
+  width: 240px;
+  background: #4f2b77;
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+}
+
+.content {
+  margin-left: 240px;
+  width: 100%;
+  height: 100%;
+  overflow-y: auto;
+  background: #34135A;
+  padding: 1rem;
+  box-sizing: border-box;
+}
+
+ul.navtree {
+  padding-left: 20px;
+  padding-right: 5px;
+}
