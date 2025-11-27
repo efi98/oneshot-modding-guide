@@ -1,0 +1,225 @@
+<!doctype html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+
+	<title>Item Combinations</title>
+
+	<link rel="stylesheet"
+		href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/styles/base16/atelier-sulphurpool.min.css">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/highlight.min.js"></script>
+
+	<style>@font-face {
+  font-family: 'Terminus TTF';
+  src: url('TerminusTTF.ttf') format('truetype');
+}
+
+p {
+  white-space: pre-wrap;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  color: white;
+}
+
+
+code {
+  background: #202746;
+  padding: 0 4px;
+  margin: 0 -4px;
+}
+
+a:link {
+  color: #FFFF00;
+}
+
+a:visited {
+  color: #FFFF00;
+}
+
+a:hover {
+  color: #FFFF00;
+}
+
+a:active {
+  color: #FFFF00;
+}
+
+.copy-code-block-button {
+  position: absolute;
+  right: 8px;
+}
+
+html,
+body {
+  height: 100%;
+  margin: 0;
+  color: #F3F3F3;
+}
+
+img,
+video {
+  max-width: 100%;
+}
+
+.layout {
+  display: flex;
+  height: 100%;
+}
+
+.side {
+  width: 240px;
+  background: #4f2b77;
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+}
+
+.content {
+  margin-left: 240px;
+  width: 100%;
+  height: 100%;
+  overflow-y: auto;
+  background: #34135A;
+  padding: 1rem;
+  box-sizing: border-box;
+}
+
+ul.navtree {
+  padding-left: 20px;
+  padding-right: 5px;
+}</style>
+	<script>const BACKLINK_NAV_DATA = [{"title":"About","path":"/about.html","children":null},{"title":"For Players","path":"/for_players.html","children":null},{"title":"Things to Consider","path":"/things_to_consider.html","children":null},{"title":"Layers","path":"/layers.html","children":[{"title":"Translation","path":"/layers/translation.html","children":null},{"title":"Asset Layer","path":"/layers/asset_layer.html","children":[{"title":"Character Sprite Layout","path":"/layers/asset_layer/character_sprite_layout.html","children":null},{"title":"Light Maps","path":"/layers/asset_layer/light_maps.html","children":null},{"title":"Tileset Layout","path":"/layers/asset_layer/tileset_layout.html","children":null},{"title":"Visual Style Guide","path":"/layers/asset_layer/visual_style_guide.html","children":null}]},{"title":"Editor Layer","path":"/layers/editor_layer.html","children":[{"title":"Common Text","path":"/layers/editor_layer/common_text.html","children":null},{"title":"Init Events","path":"/layers/editor_layer/init_events.html","children":null},{"title":"Wide Map Transfers","path":"/layers/editor_layer/wide_map_transfers.html","children":null},{"title":"Item Combinations","path":"/layers/editor_layer/item_combinations.html","children":null},{"title":"Fast Travel","path":"/layers/editor_layer/fast_travel.html","children":null},{"title":"Footstep SFX","path":"/layers/editor_layer/footstep_sfx.html","children":null}]},{"title":"Script Layer","path":"/layers/script_layer.html","children":[{"title":"Modifying Scripts","path":"/layers/script_layer/modifying_scripts.html","children":null}]},{"title":"Engine Layer","path":"/layers/engine_layer.html","children":[{"title":"Using a Different Engine","path":"/layers/engine_layer/using_a_different_engine.html","children":null}]}]},{"title":"Journal App","path":"/journal_app.html","children":null},{"title":"Save Directory","path":"/save_directory.html","children":null},{"title":"Collaboration & Version Control","path":"/collaboration_&_version_control.html","children":null},{"title":"Quality of Life","path":"/quality_of_life.html","children":[{"title":"Frozen Editor During Playtesting","path":"/quality_of_life/frozen_editor_during_playtesting.html","children":null},{"title":"Closing the Game","path":"/quality_of_life/closing_the_game.html","children":null},{"title":"Debug Mode","path":"/quality_of_life/debug_mode.html","children":null},{"title":"Supplementary Scripts","path":"/quality_of_life/supplementary_scripts.html","children":[{"title":"Noclip","path":"/quality_of_life/supplementary_scripts/noclip.html","children":null},{"title":"Seeing Collisions","path":"/quality_of_life/supplementary_scripts/seeing_collisions.html","children":null},{"title":"Event Labels","path":"/quality_of_life/supplementary_scripts/event_labels.html","children":null},{"title":"Other Event's Self Switches","path":"/quality_of_life/supplementary_scripts/other_event's_self_switches.html","children":null},{"title":"Calling Events","path":"/quality_of_life/supplementary_scripts/calling_events.html","children":null}]},{"title":"Editor Version","path":"/quality_of_life/editor_version.html","children":null}]},{"title":"Distribution","path":"/distribution.html","children":null},{"title":"Resources","path":null,"children":[{"title":"Dialogue Transcript","path":"/resources/dialogue_transcript.html","children":null},{"title":"Fonts","path":"/resources/fonts.html","children":null},{"title":"RMXP Extractor","path":"/resources/rmxp_extractor.html","children":null}]}]</script>
+	<script defer>
+
+function normalizeWikilinks() {
+	const openNodes = [...BACKLINK_NAV_DATA]
+	const linkDictionary = {}
+	while (openNodes.length > 0) {
+		node = openNodes.pop()
+
+		if (node.path)
+			linkDictionary[node.title] = node.path
+
+		if (node.children)
+			openNodes.push(...node.children)
+	}
+
+	for (const wikilink of document.querySelectorAll("a.wikilink")) {
+		const fixedLink = linkDictionary[wikilink.innerText]
+		if (fixedLink)
+			wikilink.href = fixedLink
+	}
+}
+
+function buildNavigationTree(data) {
+	const ul = document.createElement('ul')
+	ul.classList.add("navtree")
+
+	for (const node of data) {
+		const li = document.createElement('li')
+		li.classList.add("navtree")
+
+		if (node.path) {
+			const a = document.createElement('a')
+			a.classList.add("navtree")
+
+			a.textContent = node.title;
+			a.href = node.path;
+			li.appendChild(a);
+		} else {
+			const span = document.createElement('span')
+			span.classList.add("navtree")
+
+			span.textContent = node.title;
+			li.appendChild(span)
+		}
+
+		if (node.children)
+			li.appendChild(buildNavigationTree(node.children))
+
+		ul.appendChild(li)
+	}
+
+	return ul;
+}
+
+
+function addCodeBlockCopyButtons() {
+	const codeBlocks = document.querySelectorAll("pre.sourceCode")
+	for (block of codeBlocks) {
+		const button = createCodeBlockCopyButton()
+		block.prepend(button)
+	}
+}
+
+function createCodeBlockCopyButton() {
+	const b = document.createElement("button")
+	b.type = "button"
+	b.className = "copy-code-block-button"
+	b.title = "Copy"
+	b.onclick = copyCodeBlock
+	b.innerText = "copy"
+	return b
+}
+
+function copyCodeBlock(caller) {
+	console.log(caller.target.parentNode)
+	g = caller.target.parentNode.querySelector("code")
+	const content = caller.target.parentNode.querySelector("code").innerText.replace(/\u00a0/g, " ");
+	navigator.clipboard.writeText(content)
+}
+
+window.onload = () => {
+	hljs.highlightAll()
+	normalizeWikilinks()
+	addCodeBlockCopyButtons()
+
+	const xd = buildNavigationTree(BACKLINK_NAV_DATA)
+	document.querySelector(".side").appendChild(xd)
+}</script>
+</head>
+
+<body>
+	<div class="layout">
+		<aside class="side">
+		</aside>
+		<main class="content">
+			<h1>Item Combinations</h1>
+
+			<p>OneShot uses custom logic to make item combination possible.
+This requires editing a script file, and a common event.</p>
+<h2 id="combination-definition">Combination Definition</h2>
+<p>For the game to register a combination, it must be defined in the <code>Data_Item</code> script.
+A short excerpt from said script:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode ruby"><code class="sourceCode ruby"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="cf">module</span> <span class="dt">Item</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>    <span class="cn">COMBINATIONS</span> <span class="op">=</span> <span class="op">{</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>        <span class="kw">[</span><span class="dv">3</span>, <span class="dv">4</span><span class="kw">]</span> <span class="op">=&gt;</span> <span class="dv">5</span>,</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>        <span class="kw">[</span><span class="dv">8</span>, <span class="dv">9</span><span class="kw">]</span> <span class="op">=&gt;</span> <span class="dv">10</span>,</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>        <span class="kw">[</span><span class="dv">10</span>, <span class="dv">12</span><span class="kw">]</span> <span class="op">=&gt;</span> <span class="dv">13</span>,</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="cf">end</span></span></code></pre></div>
+<p>The logic is simple: <code>[item_id_1, item_id_2] =&gt; result_id</code>
+So in case of <code>[ 3, 4 ] =&gt; 5</code>, the game will have something happen when you combine the item with ID <code>3</code>, and the item with ID <code>4</code>.
+In vanilla’s case, it’s <code>alcohol</code> with <code>dry branch</code>.</p>
+<p>The order doesn’t matter, so you don’t need <code>[ 4, 3 ] =&gt; 5</code> as well in case the player tries combining them in a different order.</p>
+<p>It’s highly suggested you leave comments in the script indicating what’re the associated items and result are.</p>
+<p>The <code>result_id</code> is a value that gets inserted into the <code>[0002: g New Item]</code> variable, which is then used in the result definition.
+The variable is set to 0 when the player attempts an undefined combination.</p>
+<h2 id="result-definition">Result Definition</h2>
+<p>The <code>001: Use Item</code> common handles what happens after a combination was attempted.
+Use the <code>[0002: g New Item]</code> variable that gets set after attempting to combine items.
+It’s plain RPG Maker XP from here.</p>
+
+		</main>
+	</div>
+</body>
+
+</html>

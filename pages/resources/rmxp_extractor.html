@@ -1,0 +1,255 @@
+<!doctype html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+
+	<title>RMXP Extractor</title>
+
+	<link rel="stylesheet"
+		href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/styles/base16/atelier-sulphurpool.min.css">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/highlight.min.js"></script>
+
+	<style>@font-face {
+  font-family: 'Terminus TTF';
+  src: url('TerminusTTF.ttf') format('truetype');
+}
+
+p {
+  white-space: pre-wrap;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  color: white;
+}
+
+
+code {
+  background: #202746;
+  padding: 0 4px;
+  margin: 0 -4px;
+}
+
+a:link {
+  color: #FFFF00;
+}
+
+a:visited {
+  color: #FFFF00;
+}
+
+a:hover {
+  color: #FFFF00;
+}
+
+a:active {
+  color: #FFFF00;
+}
+
+.copy-code-block-button {
+  position: absolute;
+  right: 8px;
+}
+
+html,
+body {
+  height: 100%;
+  margin: 0;
+  color: #F3F3F3;
+}
+
+img,
+video {
+  max-width: 100%;
+}
+
+.layout {
+  display: flex;
+  height: 100%;
+}
+
+.side {
+  width: 240px;
+  background: #4f2b77;
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+}
+
+.content {
+  margin-left: 240px;
+  width: 100%;
+  height: 100%;
+  overflow-y: auto;
+  background: #34135A;
+  padding: 1rem;
+  box-sizing: border-box;
+}
+
+ul.navtree {
+  padding-left: 20px;
+  padding-right: 5px;
+}</style>
+	<script>const BACKLINK_NAV_DATA = [{"title":"About","path":"/about.html","children":null},{"title":"For Players","path":"/for_players.html","children":null},{"title":"Things to Consider","path":"/things_to_consider.html","children":null},{"title":"Layers","path":"/layers.html","children":[{"title":"Translation","path":"/layers/translation.html","children":null},{"title":"Asset Layer","path":"/layers/asset_layer.html","children":[{"title":"Character Sprite Layout","path":"/layers/asset_layer/character_sprite_layout.html","children":null},{"title":"Light Maps","path":"/layers/asset_layer/light_maps.html","children":null},{"title":"Tileset Layout","path":"/layers/asset_layer/tileset_layout.html","children":null},{"title":"Visual Style Guide","path":"/layers/asset_layer/visual_style_guide.html","children":null}]},{"title":"Editor Layer","path":"/layers/editor_layer.html","children":[{"title":"Common Text","path":"/layers/editor_layer/common_text.html","children":null},{"title":"Init Events","path":"/layers/editor_layer/init_events.html","children":null},{"title":"Wide Map Transfers","path":"/layers/editor_layer/wide_map_transfers.html","children":null},{"title":"Item Combinations","path":"/layers/editor_layer/item_combinations.html","children":null},{"title":"Fast Travel","path":"/layers/editor_layer/fast_travel.html","children":null},{"title":"Footstep SFX","path":"/layers/editor_layer/footstep_sfx.html","children":null}]},{"title":"Script Layer","path":"/layers/script_layer.html","children":[{"title":"Modifying Scripts","path":"/layers/script_layer/modifying_scripts.html","children":null}]},{"title":"Engine Layer","path":"/layers/engine_layer.html","children":[{"title":"Using a Different Engine","path":"/layers/engine_layer/using_a_different_engine.html","children":null}]}]},{"title":"Journal App","path":"/journal_app.html","children":null},{"title":"Save Directory","path":"/save_directory.html","children":null},{"title":"Collaboration & Version Control","path":"/collaboration_&_version_control.html","children":null},{"title":"Quality of Life","path":"/quality_of_life.html","children":[{"title":"Frozen Editor During Playtesting","path":"/quality_of_life/frozen_editor_during_playtesting.html","children":null},{"title":"Closing the Game","path":"/quality_of_life/closing_the_game.html","children":null},{"title":"Debug Mode","path":"/quality_of_life/debug_mode.html","children":null},{"title":"Supplementary Scripts","path":"/quality_of_life/supplementary_scripts.html","children":[{"title":"Noclip","path":"/quality_of_life/supplementary_scripts/noclip.html","children":null},{"title":"Seeing Collisions","path":"/quality_of_life/supplementary_scripts/seeing_collisions.html","children":null},{"title":"Event Labels","path":"/quality_of_life/supplementary_scripts/event_labels.html","children":null},{"title":"Other Event's Self Switches","path":"/quality_of_life/supplementary_scripts/other_event's_self_switches.html","children":null},{"title":"Calling Events","path":"/quality_of_life/supplementary_scripts/calling_events.html","children":null}]},{"title":"Editor Version","path":"/quality_of_life/editor_version.html","children":null}]},{"title":"Distribution","path":"/distribution.html","children":null},{"title":"Resources","path":null,"children":[{"title":"Dialogue Transcript","path":"/resources/dialogue_transcript.html","children":null},{"title":"Fonts","path":"/resources/fonts.html","children":null},{"title":"RMXP Extractor","path":"/resources/rmxp_extractor.html","children":null}]}]</script>
+	<script defer>
+
+function normalizeWikilinks() {
+	const openNodes = [...BACKLINK_NAV_DATA]
+	const linkDictionary = {}
+	while (openNodes.length > 0) {
+		node = openNodes.pop()
+
+		if (node.path)
+			linkDictionary[node.title] = node.path
+
+		if (node.children)
+			openNodes.push(...node.children)
+	}
+
+	for (const wikilink of document.querySelectorAll("a.wikilink")) {
+		const fixedLink = linkDictionary[wikilink.innerText]
+		if (fixedLink)
+			wikilink.href = fixedLink
+	}
+}
+
+function buildNavigationTree(data) {
+	const ul = document.createElement('ul')
+	ul.classList.add("navtree")
+
+	for (const node of data) {
+		const li = document.createElement('li')
+		li.classList.add("navtree")
+
+		if (node.path) {
+			const a = document.createElement('a')
+			a.classList.add("navtree")
+
+			a.textContent = node.title;
+			a.href = node.path;
+			li.appendChild(a);
+		} else {
+			const span = document.createElement('span')
+			span.classList.add("navtree")
+
+			span.textContent = node.title;
+			li.appendChild(span)
+		}
+
+		if (node.children)
+			li.appendChild(buildNavigationTree(node.children))
+
+		ul.appendChild(li)
+	}
+
+	return ul;
+}
+
+
+function addCodeBlockCopyButtons() {
+	const codeBlocks = document.querySelectorAll("pre.sourceCode")
+	for (block of codeBlocks) {
+		const button = createCodeBlockCopyButton()
+		block.prepend(button)
+	}
+}
+
+function createCodeBlockCopyButton() {
+	const b = document.createElement("button")
+	b.type = "button"
+	b.className = "copy-code-block-button"
+	b.title = "Copy"
+	b.onclick = copyCodeBlock
+	b.innerText = "copy"
+	return b
+}
+
+function copyCodeBlock(caller) {
+	console.log(caller.target.parentNode)
+	g = caller.target.parentNode.querySelector("code")
+	const content = caller.target.parentNode.querySelector("code").innerText.replace(/\u00a0/g, " ");
+	navigator.clipboard.writeText(content)
+}
+
+window.onload = () => {
+	hljs.highlightAll()
+	normalizeWikilinks()
+	addCodeBlockCopyButtons()
+
+	const xd = buildNavigationTree(BACKLINK_NAV_DATA)
+	document.querySelector(".side").appendChild(xd)
+}</script>
+</head>
+
+<body>
+	<div class="layout">
+		<aside class="side">
+		</aside>
+		<main class="content">
+			<h1>RMXP Extractor</h1>
+
+			<p>RMXP Extractor is a Ruby gem which can export/import RPG Maker XP data to/from a more standard data format like JSON.
+<a href="https://github.com/melody-rs/RMXP-Extractor">Source code</a></p>
+<p>I cannot overstate just how much headache it has spared me from, but I can tell you what I’ve used it for so far:</p>
+<ul>
+<li>Extracting/Packing scripts</li>
+<li>Plain text searching</li>
+<li>Comparing changes</li>
+<li>Resolving merge conflicts</li>
+<li>Mass edits</li>
+<li>Importing the data into MongoDB for shits and giggles</li>
+</ul>
+<p>When collaborating, it may be worth setting up your source control to track exported data while ignoring the <code>.rxdata</code> files themselves.
+I’ve not tried this myself though, but it sounds like it’d save even more headache, at the cost of taking some getting used to.</p>
+<h2 id="im-not-a-programmer-is-it-still-useful">I’m not a programmer, is it still useful?</h2>
+<p>It can be, depending on whether or not you can read JSON or YAML.
+You don’t need to be a programmer for that, they’re just text formats describing data in a readable manner.
+See the examples section at the end of this document.</p>
+<hr />
+<h2 id="setup">Setup</h2>
+<ol type="1">
+<li>Download and install Ruby.</li>
+<li>Open a terminal/console, and execute <code>gem install rmxp_extractor</code></li>
+<li>Go to your OneShot directory</li>
+<li>Create a file named <code>extract.bat</code>, and add this line to it:</li>
+</ol>
+<pre class="batch"><code>rmxp_extractor export json scripts</code></pre>
+<ol start="5" type="1">
+<li>Create a file named <code>import.bat</code>, and add this line to it:</li>
+</ol>
+<pre class="batch"><code>rmxp_extractor import json scripts</code></pre>
+<p>You only need to repeat <code>1)</code> and <code>2)</code> once per system, the rest are to be repeated per project.</p>
+<hr />
+<h2 id="exporting">Exporting</h2>
+<p>Now every time you run <code>extract.bat</code>, it should create two folders next to it:</p>
+<ul>
+<li><code>Data_JSON</code>, which contains all the <code>.rxdata</code> in a JSON format.</li>
+<li><code>Scripts</code>, which contains all the Ruby scripts extracted from <code>Scripts.rxdata</code></li>
+</ul>
+<p>Keep in mind that modifying the extracted content will have no effect on the game, it’s simply a copy in a different format.</p>
+<hr />
+<h2 id="importing">Importing</h2>
+<p>If you’ve made changes to the extracted content which you do want in the game, you can perform the inverse operation to pack the data back up into <code>.rxdata</code> for the game.</p>
+<p>Running <code>import.bat</code> will pack all the exported data from <code>Data_JSON</code> and <code>Scripts</code>.</p>
+<p>I <strong>HIGHLY</strong> suggest you only do this if know what you’re doing, because you <em>can</em> lose data if you’re not careful.</p>
+<p>Since it will override data with what was exported, doing something like exporting data, making changes in the editor, then importing data, will lose everything you’ve done between the export and the import.</p>
+<p>#TODO: There’s a bug in the <code>import</code> command that doesn’t pack up script commands properly. look into it.</p>
+<hr />
+<h2 id="some-examples">Some Examples</h2>
+<p>Here’s a short example for how to search for text in the game:
+#TODO
+Keep in mind that each text line in the editor is a separate command</p>
+<p>This can technically be used to find anything, but it can get complicated depending on what you’re searching for.</p>
+<p>I <em>may</em> make a tool that would help looking for common things, but don’t count on it.</p>
+
+		</main>
+	</div>
+</body>
+
+</html>

@@ -1,0 +1,244 @@
+<!doctype html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+
+	<title>Things to Consider</title>
+
+	<link rel="stylesheet"
+		href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/styles/base16/atelier-sulphurpool.min.css">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/highlight.min.js"></script>
+
+	<style>@font-face {
+  font-family: 'Terminus TTF';
+  src: url('TerminusTTF.ttf') format('truetype');
+}
+
+p {
+  white-space: pre-wrap;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  color: white;
+}
+
+
+code {
+  background: #202746;
+  padding: 0 4px;
+  margin: 0 -4px;
+}
+
+a:link {
+  color: #FFFF00;
+}
+
+a:visited {
+  color: #FFFF00;
+}
+
+a:hover {
+  color: #FFFF00;
+}
+
+a:active {
+  color: #FFFF00;
+}
+
+.copy-code-block-button {
+  position: absolute;
+  right: 8px;
+}
+
+html,
+body {
+  height: 100%;
+  margin: 0;
+  color: #F3F3F3;
+}
+
+img,
+video {
+  max-width: 100%;
+}
+
+.layout {
+  display: flex;
+  height: 100%;
+}
+
+.side {
+  width: 240px;
+  background: #4f2b77;
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+}
+
+.content {
+  margin-left: 240px;
+  width: 100%;
+  height: 100%;
+  overflow-y: auto;
+  background: #34135A;
+  padding: 1rem;
+  box-sizing: border-box;
+}
+
+ul.navtree {
+  padding-left: 20px;
+  padding-right: 5px;
+}</style>
+	<script>const BACKLINK_NAV_DATA = [{"title":"About","path":"/about.html","children":null},{"title":"For Players","path":"/for_players.html","children":null},{"title":"Things to Consider","path":"/things_to_consider.html","children":null},{"title":"Layers","path":"/layers.html","children":[{"title":"Translation","path":"/layers/translation.html","children":null},{"title":"Asset Layer","path":"/layers/asset_layer.html","children":[{"title":"Character Sprite Layout","path":"/layers/asset_layer/character_sprite_layout.html","children":null},{"title":"Light Maps","path":"/layers/asset_layer/light_maps.html","children":null},{"title":"Tileset Layout","path":"/layers/asset_layer/tileset_layout.html","children":null},{"title":"Visual Style Guide","path":"/layers/asset_layer/visual_style_guide.html","children":null}]},{"title":"Editor Layer","path":"/layers/editor_layer.html","children":[{"title":"Common Text","path":"/layers/editor_layer/common_text.html","children":null},{"title":"Init Events","path":"/layers/editor_layer/init_events.html","children":null},{"title":"Wide Map Transfers","path":"/layers/editor_layer/wide_map_transfers.html","children":null},{"title":"Item Combinations","path":"/layers/editor_layer/item_combinations.html","children":null},{"title":"Fast Travel","path":"/layers/editor_layer/fast_travel.html","children":null},{"title":"Footstep SFX","path":"/layers/editor_layer/footstep_sfx.html","children":null}]},{"title":"Script Layer","path":"/layers/script_layer.html","children":[{"title":"Modifying Scripts","path":"/layers/script_layer/modifying_scripts.html","children":null}]},{"title":"Engine Layer","path":"/layers/engine_layer.html","children":[{"title":"Using a Different Engine","path":"/layers/engine_layer/using_a_different_engine.html","children":null}]}]},{"title":"Journal App","path":"/journal_app.html","children":null},{"title":"Save Directory","path":"/save_directory.html","children":null},{"title":"Collaboration & Version Control","path":"/collaboration_&_version_control.html","children":null},{"title":"Quality of Life","path":"/quality_of_life.html","children":[{"title":"Frozen Editor During Playtesting","path":"/quality_of_life/frozen_editor_during_playtesting.html","children":null},{"title":"Closing the Game","path":"/quality_of_life/closing_the_game.html","children":null},{"title":"Debug Mode","path":"/quality_of_life/debug_mode.html","children":null},{"title":"Supplementary Scripts","path":"/quality_of_life/supplementary_scripts.html","children":[{"title":"Noclip","path":"/quality_of_life/supplementary_scripts/noclip.html","children":null},{"title":"Seeing Collisions","path":"/quality_of_life/supplementary_scripts/seeing_collisions.html","children":null},{"title":"Event Labels","path":"/quality_of_life/supplementary_scripts/event_labels.html","children":null},{"title":"Other Event's Self Switches","path":"/quality_of_life/supplementary_scripts/other_event's_self_switches.html","children":null},{"title":"Calling Events","path":"/quality_of_life/supplementary_scripts/calling_events.html","children":null}]},{"title":"Editor Version","path":"/quality_of_life/editor_version.html","children":null}]},{"title":"Distribution","path":"/distribution.html","children":null},{"title":"Resources","path":null,"children":[{"title":"Dialogue Transcript","path":"/resources/dialogue_transcript.html","children":null},{"title":"Fonts","path":"/resources/fonts.html","children":null},{"title":"RMXP Extractor","path":"/resources/rmxp_extractor.html","children":null}]}]</script>
+	<script defer>
+
+function normalizeWikilinks() {
+	const openNodes = [...BACKLINK_NAV_DATA]
+	const linkDictionary = {}
+	while (openNodes.length > 0) {
+		node = openNodes.pop()
+
+		if (node.path)
+			linkDictionary[node.title] = node.path
+
+		if (node.children)
+			openNodes.push(...node.children)
+	}
+
+	for (const wikilink of document.querySelectorAll("a.wikilink")) {
+		const fixedLink = linkDictionary[wikilink.innerText]
+		if (fixedLink)
+			wikilink.href = fixedLink
+	}
+}
+
+function buildNavigationTree(data) {
+	const ul = document.createElement('ul')
+	ul.classList.add("navtree")
+
+	for (const node of data) {
+		const li = document.createElement('li')
+		li.classList.add("navtree")
+
+		if (node.path) {
+			const a = document.createElement('a')
+			a.classList.add("navtree")
+
+			a.textContent = node.title;
+			a.href = node.path;
+			li.appendChild(a);
+		} else {
+			const span = document.createElement('span')
+			span.classList.add("navtree")
+
+			span.textContent = node.title;
+			li.appendChild(span)
+		}
+
+		if (node.children)
+			li.appendChild(buildNavigationTree(node.children))
+
+		ul.appendChild(li)
+	}
+
+	return ul;
+}
+
+
+function addCodeBlockCopyButtons() {
+	const codeBlocks = document.querySelectorAll("pre.sourceCode")
+	for (block of codeBlocks) {
+		const button = createCodeBlockCopyButton()
+		block.prepend(button)
+	}
+}
+
+function createCodeBlockCopyButton() {
+	const b = document.createElement("button")
+	b.type = "button"
+	b.className = "copy-code-block-button"
+	b.title = "Copy"
+	b.onclick = copyCodeBlock
+	b.innerText = "copy"
+	return b
+}
+
+function copyCodeBlock(caller) {
+	console.log(caller.target.parentNode)
+	g = caller.target.parentNode.querySelector("code")
+	const content = caller.target.parentNode.querySelector("code").innerText.replace(/\u00a0/g, " ");
+	navigator.clipboard.writeText(content)
+}
+
+window.onload = () => {
+	hljs.highlightAll()
+	normalizeWikilinks()
+	addCodeBlockCopyButtons()
+
+	const xd = buildNavigationTree(BACKLINK_NAV_DATA)
+	document.querySelector(".side").appendChild(xd)
+}</script>
+</head>
+
+<body>
+	<div class="layout">
+		<aside class="side">
+		</aside>
+		<main class="content">
+			<h1>Things to Consider</h1>
+
+			<p>Here are a few things you should consider before diving in further.
+They’re not here to deter or intimidate, but provide food for thought.</p>
+<hr />
+<blockquote>
+<p>Does it have to be a mod?</p>
+</blockquote>
+<p>Making a mod for your idea may sound exciting, but it may not be the correct choice.
+For instance, if your entire project would essentially be one long cutscene, maybe it should be a comic or a video instead.
+Remember that games are an <em>interactive medium</em>, and that OneShot specifically revolves around the idea of the player being part of the story.</p>
+<hr />
+<blockquote>
+<p>Why not a fan game?</p>
+</blockquote>
+<p>You could mod OneShot, or you could make a completely stand alone fan game instead.
+Each has their pros and cons, but the gist of it is that it’s a trade between freedom and simplicity.</p>
+<p><strong>Modding:</strong>
++ Easier and faster to get started
++ Reuse vanilla scenes and assets
++ Familiar to players
+- Depends on owning and the ability to run OneShot 2016
+- Limited* to what the game already does
+- Style limitation
+- Niche technology - Learned skills may be harder to apply in other places</p>
+<p><strong>Fan Game:</strong>
++ Freedom to do whatever you want
+- Requires your own assets
+- More upfront effort
+- Higher skill requirement for the most part</p>
+<p>*- The limit is how experienced and determined of a programmer you are, given that you can modify the engine and scripts.</p>
+<hr />
+<blockquote>
+<p>What’s the scope of the project?</p>
+</blockquote>
+<p>What kind of changes do you intend to make?
+Is it just an asset swap, or something that implements crazy meta elements?</p>
+<p>See <a href="Layers" class="wikilink">Layers</a>.</p>
+<hr />
+<blockquote>
+<p>Solo project, or collaboration?</p>
+</blockquote>
+<p>And what kind of work will collaborators be doing?</p>
+<p>See <a href="Collaboration &amp; Version Control" class="wikilink">Collaboration &amp; Version Control</a>.</p>
+
+		</main>
+	</div>
+</body>
+
+</html>

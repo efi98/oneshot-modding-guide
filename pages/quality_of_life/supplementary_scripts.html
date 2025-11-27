@@ -1,0 +1,214 @@
+<!doctype html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+
+	<title>Supplementary Scripts</title>
+
+	<link rel="stylesheet"
+		href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/styles/base16/atelier-sulphurpool.min.css">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/highlight.min.js"></script>
+
+	<style>@font-face {
+  font-family: 'Terminus TTF';
+  src: url('TerminusTTF.ttf') format('truetype');
+}
+
+p {
+  white-space: pre-wrap;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  color: white;
+}
+
+
+code {
+  background: #202746;
+  padding: 0 4px;
+  margin: 0 -4px;
+}
+
+a:link {
+  color: #FFFF00;
+}
+
+a:visited {
+  color: #FFFF00;
+}
+
+a:hover {
+  color: #FFFF00;
+}
+
+a:active {
+  color: #FFFF00;
+}
+
+.copy-code-block-button {
+  position: absolute;
+  right: 8px;
+}
+
+html,
+body {
+  height: 100%;
+  margin: 0;
+  color: #F3F3F3;
+}
+
+img,
+video {
+  max-width: 100%;
+}
+
+.layout {
+  display: flex;
+  height: 100%;
+}
+
+.side {
+  width: 240px;
+  background: #4f2b77;
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+}
+
+.content {
+  margin-left: 240px;
+  width: 100%;
+  height: 100%;
+  overflow-y: auto;
+  background: #34135A;
+  padding: 1rem;
+  box-sizing: border-box;
+}
+
+ul.navtree {
+  padding-left: 20px;
+  padding-right: 5px;
+}</style>
+	<script>const BACKLINK_NAV_DATA = [{"title":"About","path":"/about.html","children":null},{"title":"For Players","path":"/for_players.html","children":null},{"title":"Things to Consider","path":"/things_to_consider.html","children":null},{"title":"Layers","path":"/layers.html","children":[{"title":"Translation","path":"/layers/translation.html","children":null},{"title":"Asset Layer","path":"/layers/asset_layer.html","children":[{"title":"Character Sprite Layout","path":"/layers/asset_layer/character_sprite_layout.html","children":null},{"title":"Light Maps","path":"/layers/asset_layer/light_maps.html","children":null},{"title":"Tileset Layout","path":"/layers/asset_layer/tileset_layout.html","children":null},{"title":"Visual Style Guide","path":"/layers/asset_layer/visual_style_guide.html","children":null}]},{"title":"Editor Layer","path":"/layers/editor_layer.html","children":[{"title":"Common Text","path":"/layers/editor_layer/common_text.html","children":null},{"title":"Init Events","path":"/layers/editor_layer/init_events.html","children":null},{"title":"Wide Map Transfers","path":"/layers/editor_layer/wide_map_transfers.html","children":null},{"title":"Item Combinations","path":"/layers/editor_layer/item_combinations.html","children":null},{"title":"Fast Travel","path":"/layers/editor_layer/fast_travel.html","children":null},{"title":"Footstep SFX","path":"/layers/editor_layer/footstep_sfx.html","children":null}]},{"title":"Script Layer","path":"/layers/script_layer.html","children":[{"title":"Modifying Scripts","path":"/layers/script_layer/modifying_scripts.html","children":null}]},{"title":"Engine Layer","path":"/layers/engine_layer.html","children":[{"title":"Using a Different Engine","path":"/layers/engine_layer/using_a_different_engine.html","children":null}]}]},{"title":"Journal App","path":"/journal_app.html","children":null},{"title":"Save Directory","path":"/save_directory.html","children":null},{"title":"Collaboration & Version Control","path":"/collaboration_&_version_control.html","children":null},{"title":"Quality of Life","path":"/quality_of_life.html","children":[{"title":"Frozen Editor During Playtesting","path":"/quality_of_life/frozen_editor_during_playtesting.html","children":null},{"title":"Closing the Game","path":"/quality_of_life/closing_the_game.html","children":null},{"title":"Debug Mode","path":"/quality_of_life/debug_mode.html","children":null},{"title":"Supplementary Scripts","path":"/quality_of_life/supplementary_scripts.html","children":[{"title":"Noclip","path":"/quality_of_life/supplementary_scripts/noclip.html","children":null},{"title":"Seeing Collisions","path":"/quality_of_life/supplementary_scripts/seeing_collisions.html","children":null},{"title":"Event Labels","path":"/quality_of_life/supplementary_scripts/event_labels.html","children":null},{"title":"Other Event's Self Switches","path":"/quality_of_life/supplementary_scripts/other_event's_self_switches.html","children":null},{"title":"Calling Events","path":"/quality_of_life/supplementary_scripts/calling_events.html","children":null}]},{"title":"Editor Version","path":"/quality_of_life/editor_version.html","children":null}]},{"title":"Distribution","path":"/distribution.html","children":null},{"title":"Resources","path":null,"children":[{"title":"Dialogue Transcript","path":"/resources/dialogue_transcript.html","children":null},{"title":"Fonts","path":"/resources/fonts.html","children":null},{"title":"RMXP Extractor","path":"/resources/rmxp_extractor.html","children":null}]}]</script>
+	<script defer>
+
+function normalizeWikilinks() {
+	const openNodes = [...BACKLINK_NAV_DATA]
+	const linkDictionary = {}
+	while (openNodes.length > 0) {
+		node = openNodes.pop()
+
+		if (node.path)
+			linkDictionary[node.title] = node.path
+
+		if (node.children)
+			openNodes.push(...node.children)
+	}
+
+	for (const wikilink of document.querySelectorAll("a.wikilink")) {
+		const fixedLink = linkDictionary[wikilink.innerText]
+		if (fixedLink)
+			wikilink.href = fixedLink
+	}
+}
+
+function buildNavigationTree(data) {
+	const ul = document.createElement('ul')
+	ul.classList.add("navtree")
+
+	for (const node of data) {
+		const li = document.createElement('li')
+		li.classList.add("navtree")
+
+		if (node.path) {
+			const a = document.createElement('a')
+			a.classList.add("navtree")
+
+			a.textContent = node.title;
+			a.href = node.path;
+			li.appendChild(a);
+		} else {
+			const span = document.createElement('span')
+			span.classList.add("navtree")
+
+			span.textContent = node.title;
+			li.appendChild(span)
+		}
+
+		if (node.children)
+			li.appendChild(buildNavigationTree(node.children))
+
+		ul.appendChild(li)
+	}
+
+	return ul;
+}
+
+
+function addCodeBlockCopyButtons() {
+	const codeBlocks = document.querySelectorAll("pre.sourceCode")
+	for (block of codeBlocks) {
+		const button = createCodeBlockCopyButton()
+		block.prepend(button)
+	}
+}
+
+function createCodeBlockCopyButton() {
+	const b = document.createElement("button")
+	b.type = "button"
+	b.className = "copy-code-block-button"
+	b.title = "Copy"
+	b.onclick = copyCodeBlock
+	b.innerText = "copy"
+	return b
+}
+
+function copyCodeBlock(caller) {
+	console.log(caller.target.parentNode)
+	g = caller.target.parentNode.querySelector("code")
+	const content = caller.target.parentNode.querySelector("code").innerText.replace(/\u00a0/g, " ");
+	navigator.clipboard.writeText(content)
+}
+
+window.onload = () => {
+	hljs.highlightAll()
+	normalizeWikilinks()
+	addCodeBlockCopyButtons()
+
+	const xd = buildNavigationTree(BACKLINK_NAV_DATA)
+	document.querySelector(".side").appendChild(xd)
+}</script>
+</head>
+
+<body>
+	<div class="layout">
+		<aside class="side">
+		</aside>
+		<main class="content">
+			<h1>Supplementary Scripts</h1>
+
+			<p>I’ve ran into a lot of cases where RPG Maker was missing some functionality which I found to be almost mandatory.
+Because of that, I kept adding functionality I’d want to have to make my life easier, and am now sharing some of it with you.</p>
+<h2 id="setup">Setup</h2>
+<p>Read <a href="Script Layer" class="wikilink">Script Layer</a>, as this requires a very simple script change.</p>
+<p>Save this image, name it <code>debug_collision.png</code> and move it into <code>Graphics/Tilesets</code>:
+<img role="img" aria-label="supplimentary_scripts_1.png" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQAAAACACAYAAADktbcKAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAACxEAAAsRAX9kX5EAAAAYdEVYdFNvZnR3YXJlAFBhaW50Lk5FVCA1LjEuMvu8A7YAAAC2ZVhJZklJKgAIAAAABQAaAQUAAQAAAEoAAAAbAQUAAQAAAFIAAAAoAQMAAQAAAAIAAAAxAQIAEAAAAFoAAABphwQAAQAAAGoAAAAAAAAAGBkBAOgDAAAYGQEA6AMAAFBhaW50Lk5FVCA1LjEuMgADAACQBwAEAAAAMDIzMAGgAwABAAAAAQAAAAWgBAABAAAAlAAAAAAAAAACAAEAAgAEAAAAUjk4AAIABwAEAAAAMDEwMAAAAAAqTnkKCzsDywAAAdZJREFUeF7t3TFOxDAUQMEsx+SAXBMCIhSWVhQQ29KbaVZs4/gXL16K5HHEvR/H6+fnOYi3ry8mW73+KrvM/TL7OnZZ/+XrLyDpDE9b/U4w227zHt19Pbut7wQAYQIAYQIAYQIAYQIAYQIAYQIAYQIAYQIAYQIAYQIAYQIAYQIAYQIAYQIAYQIAYQIAYQIAYQIAYQIAYQIAYQIAYQIAYQIAYQIAYY/vz+V+e2PKf7vewLL7m2ruMnufl2fzXjWH0d1z2WWfFycACDuDt1al/M+s3n9136PZc9hl/04AEPbYrcTAPE4AEPbzP4DZJ4HxN9eq9VedgHZZ/1KdQ50TAISdAW4b7zzjnfFuq9efbbd5j+6+nt1OOk4AECYAECYAECYAECYAECYAECYAECYAECYAECYAECYAECYAECYAECYAECYAECYAECYAECYAECYAECYAECYAECYAECYAELbNewFmPy/9ev777s+pv8vsfV6ezXuX5+XfPZdd9nlxAoCwM3hrVcr/zOr9V/c9mj2HXfbvBAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADAHxzHB+80UplGqwB0AAAAAElFTkSuQmCC" class="wikilink" alt="supplimentary_scripts_1.png" /></p>
+<p>Create a new script, and have it load second to last, before <code>Main</code>.
+Should look like this if you’re doing it through the editor:
+<img role="img" aria-label="supplimentary_scripts_2.png" src="data:image/png;base64,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" class="wikilink" alt="supplimentary_scripts_2.png" /></p>
+<p>Then copy the contents of this code block into it:</p>
+<pre class="embed-ruby"><code>PATH: &quot;vault://Assets/supplimentary_scripts.rb&quot;
+TITLE: &quot;Supplimentary_Scripts&quot;</code></pre>
+
+		</main>
+	</div>
+</body>
+
+</html>
