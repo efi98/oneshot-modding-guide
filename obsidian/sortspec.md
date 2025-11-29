@@ -2,7 +2,7 @@
 sorting-spec: |
   Assets
   sortspec
-  About
+  Index
   For Players
   Things to Consider
   Layers
