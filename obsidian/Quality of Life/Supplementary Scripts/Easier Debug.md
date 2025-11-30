@@ -1,0 +1,1 @@
+Simplifies [[Debug Mode]] by only requiring you create the `debug_tester.dat` for both modes, instead of having to launch the game with arguments via console.

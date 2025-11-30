@@ -30,13 +30,15 @@ class Interpreter
 		ev_id, ev = $game_map.event_by_name(event_name)
 		return _call_event(ev)
 	end
-	
+
+
 	# Same as `call_event`, but by ID instead
 	def call_event_by_id(event_id)
 		ev = $game_map.event_by_id(event_id)
 		return _call_event(ev)
 	end
-	
+
+
 	# Returns whether calling the given on map event is valid
 	# Checks if the event with the name exists, and that it has commands to execute
 	# While `call_event` already does that, this method allows for setup before actually calling the event
@@ -51,8 +53,21 @@ class Interpreter
 		return ev && ev.execution_valid?
 	end
 
+	# Get another event's self switch
+	def get_others_self_switch(event_name, switch)
+		id, _ = $game_map.event_by_name(event_name)
+		$game_self_switches[[$game_map.map_id, id, switch]]
+	end
+
+	# Set another event's self switch
+	def set_others_self_switch(event_name, switch, state)
+		id, = $game_map.event_by_name(event_name)
+		$game_self_switches[[$game_map.map_id, id, switch]] = !!state
+		$game_map.need_refresh = true
+	end
+
 	private
-	def _call_event(event)
+	def _call_event(ev)
 		# Return false if the event wasn't found, was erased, or has no commands in the list
 		return false if !ev || !ev.execution_valid?
 
@@ -65,21 +80,6 @@ class Interpreter
 		return true
 	end
 end
-
-module Script
-	# Get another event's self switch
-	def get_others_self_switch(event_name, switch)
-		id, _ = $game_map.event_by_name(event_name)
-		$game_self_switches[[$game_map.map_id, id, switch]]
-	end
-
-	# Set another event's self switch
-	def set_others_self_switch(event_name, switch, state)
-		id, = $game_map.event_by_name(event_name)
-		$game_self_switches[[$game_map.map_id, id, switch]] = !!state
-	end
-end
-
 
 module RPG
 	module Cache
@@ -97,6 +97,157 @@ module RPG
 				hue += 360 if hue < 0
 				return _og_load_bitmap(path, filename, hue)
 			end
+		end
+	end
+end
+
+# Simplify entering proper debug mdoe
+$debug = File.exists?("debug_tester.dat") unless $debug
+
+# Debug specific stuff past this point
+return unless $debug
+
+class Collision_View
+	TILE_OFFSET = 384
+	GAME_WIDTH = 640
+	GAME_HEIGHT = 480
+
+	attr_reader :enabled
+
+	def initialize()
+		@enabled = false
+	end
+	
+	def update()
+		if Input.trigger?(Input::R)
+			@enabled ? hide() : show()
+	    end
+
+		if @enabled
+			@map.ox = $game_map.display_x / 4
+	    	@map.oy = $game_map.display_y / 4
+		end
+	end
+
+	def show()
+		dispose()
+		@enabled = true
+		
+		@vieport = Viewport.new(0, 0, GAME_WIDTH, GAME_HEIGHT)
+		@vieport.z = 999
+
+		@map = Tilemap.new(@vieport, GAME_WIDTH / 32 + 2, GAME_HEIGHT / 32 + 2)
+		@map.tileset = RPG::Cache.tileset('debug_collision')
+		@map.map_data = buildMapData()
+		Graphics.frame_reset()
+	end
+	
+	def hide()
+		dispose()
+		@enabled = false
+	end
+
+	def dispose()
+		@vieport.dispose() if @vieport
+		@vieport = nil
+		@map = nil
+	end
+	
+	def isEventPassable(ev)
+		return true if ev.through
+		return false if ev.tile_id == 0 && ev.character_name.empty?
+		return false if $game_map.passages[ev.tile_id] & 0x0f == 0x0f
+		return false unless ev.character_name.empty?
+
+		return true
+	end
+	
+	DIRS = [
+		2, # DOWN
+		4, # Left
+		6, # Right
+		8  # UP
+	]
+
+	def buildMapData()
+		# Temporarily move the player out of the way as to not interfere with collision checks
+		px, py = $game_player.x, $game_player.y
+		$game_player.x = -1
+		$game_player.y = -1
+
+		map_data = Table.new($game_map.width, $game_map.height)
+
+		$game_map.width.times do |x|
+	    	$game_map.height.times do |y|
+				flag = 0
+				DIRS.each do |dir|
+					flag += 1 << (dir / 2 - 1) unless $game_player.passable?(x, y, dir)
+				end
+				
+				map_data[x, y] = TILE_OFFSET + flag if flag > 0
+	      	end
+	    end
+
+		# Put the player back
+		$game_player.x = px
+		$game_player.y = py
+
+		return map_data
+	end
+end
+
+$collision_view = Collision_View.new()
+
+class Scene_Map
+	alias :_og_transfer_player :transfer_player
+	def transfer_player()
+		$collision_view.hide()
+		_og_transfer_player()
+	end
+end
+
+class Spriteset_Map
+	alias :_og_update :update
+	def update()
+		_og_update()
+		$collision_view.update()
+	end
+end
+
+class Game_Player
+	alias :_og_passable? :passable?
+
+	def passable?(x, y, d)
+		return true if Input.press?(Input::CANCEL)
+		return _og_passable?(x, y, d)
+	end
+end
+
+module Graphics
+	@@game_modification_time = File.stat("Data/Actors.rxdata").mtime
+
+	class << self
+		alias :_og_update :update
+
+		def update()
+        	if File.stat("Data/Actors.rxdata").mtime != @@game_modification_time && $scene.class == Scene_Map
+        		sleep(0.1) # to give rmxp a chance to save the file properly
+				
+        		$data_actors = load_data("Data/Actors.rxdata")
+        		$data_items = load_data("Data/Items.rxdata")
+        		$data_armors = load_data("Data/Armors.rxdata")
+        		$data_animations = load_data("Data/Animations.rxdata")
+        		$data_tilesets = load_data("Data/Tilesets.rxdata")
+        		$data_common_events = load_data("Data/CommonEvents.rxdata")
+				
+        		RPG::Cache.clear()
+        		$game_map.setup($game_map.map_id)
+        		$scene = Scene_Map.new()
+        		$game_player.center($game_player.x, $game_player.y)
+        		@@game_modification_time = File.stat("Data/Actors.rxdata").mtime
+        	end
+
+        	_og_update()
 		end
 	end
 end
