@@ -1,120 +1,183 @@
+:root {
+    /* Colors */
+    --color-text: #E4E0EB;
+    --color-heading: #FFFFFF;
+    --color-link: #F6E748;
+    --color-code-bg: #1F2442;
+    --color-side-bg: #543182;
+    --color-content-bg: #3A1C63;
+
+    /* Fonts */
+    --font-body: Calibri, serif;
+    --font-heading: Calibri, serif;
+    --font-code: 'Terminus TTF', monospace;
+
+    /* Sizing */
+    --font-h1: 4rem;
+    --font-h2: 3rem;
+    --font-h3: 2.5rem;
+    --font-h4: 2rem;
+    --font-p: 1.5rem;
+
+    /* Layout */
+    --side-min-width: 240px;
+    --side-max-width: 25%;
+}
+
 @font-face {
-  font-family: 'Terminus TTF';
-  src: url('TerminusTTF.ttf') format('truetype');
+    font-family: 'Terminus TTF';
+    src: url('TerminusTTF.ttf') format('truetype');
+}
+
+/* GLOBAL SCROLLBAR */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+*::-webkit-scrollbar-thumb {
+    background-color: var(--color-link);
+    border-radius: 8px;
+    border: 2px solid transparent; /* creates padding effect */
+    background-clip: content-box;
 }
 
 html,
 body {
-  height: 100%;
-  margin: 0;
-  color: #E1E1E1;
+    font-size: 14px;
+    font-family: Calibri, serif;
+    height: 100%;
+    margin: 0;
+    color: var(--color-text);
+    overflow: hidden;
 }
 
 p {
-  white-space: pre-wrap;
-  margin-top: 0;
-  font-size: 1.5rem;
+    white-space: pre-wrap;
+    margin-top: 0;
+    font-size: var(--font-p);
 }
 
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-  color: white;
-  margin-bottom: 0;
+h1, h2, h3, h4, h5, h6 {
+    color: var(--color-heading);
+    margin-bottom: 0;
 }
 
-h1 { font-size: 4rem; }
-h2 { font-size: 3rem; }
-h3 { font-size: 2.5rem; }
-h4 { font-size: 2rem; }
-
-a:link {
-  color: #FFFF00;
+h1 {
+    font-size: var(--font-h1);
 }
 
-a:visited {
-  color: #FFFF00;
+h2 {
+    font-size: var(--font-h2);
 }
 
-a:hover {
-  color: #FFFF00;
+h3 {
+    font-size: var(--font-h3);
+}
+
+h4 {
+    font-size: var(--font-h4);
+}
+
+a:link,
+a:visited,
+a:hover,
+a:active {
+    color: var(--color-link);
 }
 
 a:active {
-  color: #FFFF00;
+    font-weight: bold;
 }
 
 pre code.hljs {
-  overflow-x: hidden;
-  display: inline-block;
+    overflow-x: hidden;
+    display: inline-block;
 }
 
 code {
-  background: #202746;
-  padding: 0 4px;
-  margin: 0 -4px;
+    background: var(--color-code-bg);
+    padding: 0 4px;
+    margin: 0 -4px;
 }
 
 .sourceCode {
-  overflow-y: hidden;
-  overflow-x: hidden;
+    overflow-y: hidden;
+    overflow-x: hidden;
 }
 
-div.sourceCode>pre.sourceCode {
-  margin-top: 0;
-  max-height: 20rem;
-  overflow: auto;
+div.sourceCode > pre.sourceCode {
+    margin-top: 0;
+    max-height: 20rem;
+    overflow: auto;
 }
 
 div.sourceCode {
-  overflow-y: hidden;
-  overflow-x: hidden;
+    overflow-y: hidden;
+    overflow-x: hidden;
 }
 
 .copy-code-block-button {
-  width: 100%;
+    width: 100%;
 }
 
 
 img,
 video {
-  max-width: 100%;
+    max-width: 100%;
 }
 
 .layout {
-  display: flex;
-  height: 100%;
+    display: flex;
+    height: 100%;
 }
 
+/*Aside*/
+
 .side {
-  min-width: 240px;
-  max-width: 25%;
-  background: #4f2b77;
-  overflow-y: scroll;
-  direction: rtl;
+    font-size: 1rem;
+    padding: 0 0 0 1rem;
+    min-width: var(--side-min-width);
+    max-width: var(--side-max-width);
+    background: var(--color-side-bg);
+    overflow-y: auto;
+    direction: rtl;
 }
 
 .side * {
-  direction: ltr;
+    direction: ltr;
 }
 
 .content {
-  width: 100%;
-  height: 100%;
-  overflow-y: auto;
-  background: #34135A;
-  padding: 1rem;
-  box-sizing: border-box;
+    width: 100%;
+    height: 100%;
+    overflow-y: auto;
+    background: var(--color-content-bg);
+    padding: 1rem;
+    box-sizing: border-box;
 }
 
 ul.navtree {
-  padding-left: 20px;
-  padding-right: 5px;
+    list-style: none;
+    padding-left: 1rem;
+    margin-left: 0;
+    padding-right: 5px;
 }
 
-ul li .navtree {
-  list-style-type: disc;
+ul.navtree li {
+    margin: 0.2rem 0;
+}
+
+ul.navtree li a.navtree,
+ul.navtree li span.navtree {
+    display: block;
+    padding: 0.3rem 0.4rem;
+    text-decoration: none;
+    border-radius: 4px;
+    transition: background-color 0.15s ease, color 0.15s ease;
+}
+
+/* Hover + active styles */
+ul.navtree li a.navtree:hover {
+    background: rgba(255, 255, 255, 0.12);
+    color: var(--color-heading);
 }
