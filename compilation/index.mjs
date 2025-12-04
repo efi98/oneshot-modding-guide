@@ -192,15 +192,7 @@ function processToPages(nodes, htmlTemplate) {
             const html = cheerio.load(htmlTemplate.html())
             html("title").text(node.title)
             html("#page_title").text(node.title)
-
-            const t = node.title.replaceAll(/'/g, "\\'")
-            const selector = `a.navtree[nav-title='${t}'], span.navtree[nav-title='${t}']`
-            try {
-                html(selector).attr("selected", true)
-            }
-            catch (e){
-                console.log(e)
-            }
+            html(`a.navtree[nav-title='${node.title.replaceAll(/'/g, "\\'")}']`).attr("selected", true)
             html(`#page_content`).append(node.content)
             node.content = html.html()
         }
