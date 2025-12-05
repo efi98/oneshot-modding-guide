@@ -62,6 +62,13 @@
     }
 }
 
+@supports (-moz-appearance: none) {
+    * {
+        scrollbar-width: thin;
+        scrollbar-color: var(--color-link) transparent;
+    }
+}
+
 html,
 body {
     font-size: 14px;
