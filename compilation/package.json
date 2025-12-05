@@ -1,6 +1,6 @@
 {
   "scripts": {
-    "compile-github-pages": "node ./index.mjs",
+    "compile-github-pages": "node ./index.mjs --backlinkprefix=oneshot-modding-guide",
     "compile-local": "node ./index.mjs --localbacklinks"
   },
   "dependencies": {

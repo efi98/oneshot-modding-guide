@@ -1,3 +1,8 @@
+// --backlinkprefix=<prefix>
+// --localbacklinks : Configure backlinks for local browsing
+// --skipcontent : Skips converting page content
+// --dryrun : Skips writing to disk
+
 import fs from "fs"
 import path from "path"
 import { execSync, spawnSync } from "child_process"
@@ -6,23 +11,32 @@ import * as cheerio from 'cheerio';
 
 const element = (html) => cheerio.load(html, {}, false)("*")
 
-
-// --skipcontent : Skips converting page content
-// --debugoutput : Output into two documents containing all nodes and backlins
-// --localbacklinks : Configure backlinks for local browsing
-
 const IGNORED_DIRS = [".obsidian", "Assets"]
-const RESOURCE_DIR = "./resources"
 
-// TODO: Remove git dependency
-const rootDir = execSync("git rev-parse --show-toplevel", { encoding: "utf8" }).trim()
+const resourceDir = `${import.meta.dirname}/resources`
 
+const rootDir = path.join(import.meta.dirname, '..')
 const vaultDir = `${rootDir}/obsidian`
 const outputDir = `${rootDir}/docs`
 
 const skipContent = process.argv.includes("--skipcontent")
-const debugOutput = process.argv.includes("--debugoutput")
+const dryRun = process.argv.includes("--dryrun")
 const localbackLinks = process.argv.includes("--localbacklinks")
+
+const backlinkPrefixArg = process.argv.find(arg => arg.startsWith("--backlinkprefix="))
+if (!backlinkPrefixArg && !localbackLinks)
+    throw "Must specify either `--localbackLinks` or `--backlinkPrefixArg=<prefix>`"
+
+let backlinkPrefix
+if (localbackLinks) {
+    backlinkPrefix = `file://${outputDir}`
+} else {
+    backlinkPrefix = backlinkPrefixArg.replace("--backlinkprefix=", "")
+    if (backlinkPrefix.length == 0)
+        throw "Invalid argument: --backlinkPrefixArg=<prefix>"
+
+    backlinkPrefix = `/${backlinkPrefix}`
+}
 
 const assetsDir = `${vaultDir}/Assets`
 
@@ -170,18 +184,11 @@ function buildNavigationHierarchy(nodes, relativePath) {
 }
 
 function buildHtmlTemplate(nodes) {
-    let backlinkPrefix
-    if (localbackLinks)
-        backlinkPrefix = `file://${outputDir}`
-    else
-        backlinkPrefix = "/" + execSync("git config --get remote.origin.url", { encoding: "utf8" }).trim().split('/').pop().replace(/\.git$/g, '')
-    // TODO: Remove git dependency
-
     const navHierarchy = buildNavigationHierarchy(nodes, backlinkPrefix)
 
-    const template = cheerio.load(fs.readFileSync(RESOURCE_DIR + "/template.html", "utf8"))
-    template("#custom_script").text(fs.readFileSync(RESOURCE_DIR + "/script.js", "utf8"))
-    template("#custom_style").text(fs.readFileSync(RESOURCE_DIR + "/style.css", "utf8"))
+    const template = cheerio.load(fs.readFileSync(resourceDir + "/template.html", "utf8"))
+    template("#custom_script").text(fs.readFileSync(resourceDir + "/script.js", "utf8"))
+    template("#custom_style").text(fs.readFileSync(resourceDir + "/style.css", "utf8"))
     template("#navigation_tree").append(navHierarchy)
     return template
 }
@@ -206,9 +213,5 @@ const contentNodes = gather(vaultDir)
 const htmlTemplate = buildHtmlTemplate(contentNodes)
 processToPages(contentNodes, htmlTemplate)
 
-if (debugOutput) {
-    fs.writeFileSync(outputDir + "/nodes.json", JSON.stringify(contentNodes, null, 2))
-    fs.writeFileSync(outputDir + "/navigation_hierarchy.json", JSON.stringify(navHierarchy, null, 2))
-} else {
+if (!dryRun)
     outputNodes(contentNodes, outputDir)
-}
