@@ -3,6 +3,7 @@
     --color-text: #E4E0EB;
     --color-heading: #FFFFFF;
     --color-link: #F6E748;
+    --color-link-active: #ffde00;
     --color-code-bg: #1F2442;
     --color-side-bg: #543182;
     --color-content-bg: #3A1C63;
@@ -34,11 +35,31 @@
     width: 8px;
 }
 
+::-webkit-scrollbar-track {
+    background: transparent;
+    border-width: 0;
+    border-radius: 8px;
+}
+
 *::-webkit-scrollbar-thumb {
-    background-color: var(--color-link);
+    background: color-mix(in srgb, var(--color-link), transparent 50%);
     border-radius: 8px;
     border: 2px solid transparent; /* creates padding effect */
     background-clip: content-box;
+}
+
+*:hover {
+    /* Track on hover */
+    &::-webkit-scrollbar-track {
+        /*background: rgba(0, 0, 0, 0.2);*/
+    }
+
+    /* Handle on hover */
+    &::-webkit-scrollbar-thumb {
+        background: var(--color-link);
+        border: 2px solid transparent;
+        background-clip: content-box;
+    }
 }
 
 html,
@@ -83,10 +104,6 @@ a:visited,
 a:hover,
 a:active {
     color: var(--color-link);
-}
-
-a:active {
-    font-weight: bold;
 }
 
 pre code.hljs {
@@ -174,10 +191,33 @@ ul.navtree li span.navtree {
     text-decoration: none;
     border-radius: 4px;
     transition: background-color 0.15s ease, color 0.15s ease;
+    /*border-left: 1px solid transparent;*/
 }
 
-/* Hover + active styles */
+ul.navtree li.navtree.parent a.navtree {
+    /*padding-left: 0.8rem;*/
+}
+
+.navtree.parent > a::before {
+    content: "▼";
+    display: inline-block;
+    margin-left: -1.5em;
+    margin-right: 0.5em;
+    font-size: 0.8em;
+}
+
+/* Hover styles */
 ul.navtree li a.navtree:hover {
     background: rgba(255, 255, 255, 0.12);
-    color: var(--color-heading);
+    color: color-mix(in srgb, var(--color-link) 40%, white);
+}
+
+/* Hover styles */
+ul.navtree li a.navtree[selected="true"] {
+    letter-spacing: 1px;
+    text-decoration: underline;
+    font-weight: bold;
+    /*border-radius: 0 4px 4px 0;*/
+    /*color: var(--color-link-active);*/
+    /*border-left: 2px solid var(--color-link-active);*/
 }
