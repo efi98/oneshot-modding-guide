@@ -1,33 +1,42 @@
+// --backlinkprefix=<prefix>
+// --localbacklinks : Configure backlinks for local browsing
+// --skipcontent : Skips converting page content
+// --dryrun : Skips writing to disk
+
 import fs from "fs"
 import path from "path"
 import { execSync, spawnSync } from "child_process"
 import filenamify from 'filenamify';
+import * as cheerio from 'cheerio';
 
-// --skipcontent : Skips converting page content
-// --debugoutput : Output into two documents containing all nodes and backlins
-// --localbacklinks : Configure backlinks for local browsing
+const element = (html) => cheerio.load(html, {}, false)("*")
 
 const IGNORED_DIRS = [".obsidian", "Assets"]
-const RESOURCE_DIR = "./resources"
 
-const rootDir = execSync("git rev-parse --show-toplevel", { encoding: "utf8" }).trim()
+const resourceDir = `${import.meta.dirname}/resources`
 
+const rootDir = path.join(import.meta.dirname, '..')
 const vaultDir = `${rootDir}/obsidian`
 const outputDir = `${rootDir}/docs`
 
 const skipContent = process.argv.includes("--skipcontent")
-const debugOutput = process.argv.includes("--debugoutput")
+const dryRun = process.argv.includes("--dryrun")
 const localbackLinks = process.argv.includes("--localbacklinks")
 
-let backlinkPrefix = ""
-if (localbackLinks)
-    backlinkPrefix = `file://${outputDir}`
-else
-    backlinkPrefix = "/" + execSync("git config --get remote.origin.url", { encoding: "utf8" }).trim().split('/').pop().replace(/\.git$/g, '')
+const backlinkPrefixArg = process.argv.find(arg => arg.startsWith("--backlinkprefix="))
+if (!backlinkPrefixArg && !localbackLinks)
+    throw "Must specify either `--localbackLinks` or `--backlinkPrefixArg=<prefix>`"
 
-const htmlTemplate = fs.readFileSync(RESOURCE_DIR + "/template.html", "utf8")
-    .replace("{{STATIC.SCRIPT}}", fs.readFileSync(RESOURCE_DIR + "/script.js", "utf8"))
-    .replace("{{STATIC.STYLE}}", fs.readFileSync(RESOURCE_DIR + "/style.css", "utf8"))
+let backlinkPrefix
+if (localbackLinks) {
+    backlinkPrefix = `file://${outputDir}`
+} else {
+    backlinkPrefix = backlinkPrefixArg.replace("--backlinkprefix=", "")
+    if (backlinkPrefix.length == 0)
+        throw "Invalid argument: --backlinkPrefixArg=<prefix>"
+
+    backlinkPrefix = `/${backlinkPrefix}`
+}
 
 const assetsDir = `${vaultDir}/Assets`
 
@@ -125,20 +134,6 @@ function processSortspecEntry(filePath) {
     return content
 }
 
-function postProcessContent(nodes, navData) {
-    for (const node of nodes) {
-        if (node.content) {
-            node.content = htmlTemplate
-                .replaceAll("{{PAGE.TITLE}}", node.title)
-                .replace("{{PAGE.NAV_DATA}}", "const BACKLINK_NAV_DATA = " + JSON.stringify(navData))
-                .replace("{{PAGE.CONTENT}}", node.content)
-        }
-
-        if (node.children)
-            postProcessContent(node.children, navData)
-    }
-}
-
 function outputNodes(nodes, dir) {
     for (const node of nodes) {
         if (node.content) {
@@ -156,38 +151,67 @@ function outputNodes(nodes, dir) {
 }
 
 function buildNavigationHierarchy(nodes, relativePath) {
-    const list = []
+    nodes = nodes.filter(n => n.content || (n.children && n.children.length > 0))
+    if (nodes.length == 0)
+        return null
+
+    const ul = element('<ul class="navtree"></ul>')
 
     for (const node of nodes) {
-        if (!node.content && !node.children)
-            continue
+        const li = element('<li class="navtree"></li>')
 
-        const link = {
-            title: node.title,
-            path: null,
-            children: null
+        let label
+        if (node.content) {
+            label = element(`<a class="navtree"></a>`)
+            label.attr("href", `${relativePath}/${node.path_part}.html`)
+        }
+        else
+            label = element(`<span class="navtree"></span>`)
+
+        label.text(node.title)
+        label.attr("nav-title", node.title)
+        li.append(label)
+
+        if (node.children) {
+            const children = buildNavigationHierarchy(node.children, `${relativePath}/${node.path_part}`)
+            li.append(children)
         }
 
-        if (node.content)
-            link.path = `${relativePath}/${node.path_part}.html`
-
-        if (node.children)
-            link.children = buildNavigationHierarchy(node.children, `${relativePath}/${node.path_part}`)
-
-        list.push(link)
+        ul.append(li)
     }
 
-    return list
+    return ul
+}
+
+function buildHtmlTemplate(nodes) {
+    const navHierarchy = buildNavigationHierarchy(nodes, backlinkPrefix)
+
+    const template = cheerio.load(fs.readFileSync(resourceDir + "/template.html", "utf8"))
+    template("#custom_script").text(fs.readFileSync(resourceDir + "/script.js", "utf8"))
+    template("#custom_style").text(fs.readFileSync(resourceDir + "/style.css", "utf8"))
+    template("#navigation_tree").append(navHierarchy)
+    return template
+}
+
+function processToPages(nodes, htmlTemplate) {
+    for (const node of nodes) {
+        if (node.content) {
+            const html = cheerio.load(htmlTemplate.html())
+            html("title").text(node.title)
+            html("#page_title").text(node.title)
+            html(`a.navtree[nav-title='${node.title.replaceAll(/'/g, "\\'")}']`).attr("selected", true)
+            html(`#page_content`).append(node.content)
+            node.content = html.html()
+        }
+
+        if (node.children)
+            processToPages(node.children, htmlTemplate)
+    }
 }
 
 const contentNodes = gather(vaultDir)
+const htmlTemplate = buildHtmlTemplate(contentNodes)
+processToPages(contentNodes, htmlTemplate)
 
-const navHierarchy = buildNavigationHierarchy(contentNodes, backlinkPrefix)
-postProcessContent(contentNodes, navHierarchy)
-
-if (debugOutput) {
-    fs.writeFileSync(outputDir + "/nodes.json", JSON.stringify(contentNodes, null, 2))
-    fs.writeFileSync(outputDir + "/navigation_hierarchy.json", JSON.stringify(navHierarchy, null, 2))
-} else {
+if (!dryRun)
     outputNodes(contentNodes, outputDir)
-}
