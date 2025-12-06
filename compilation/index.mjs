@@ -5,13 +5,14 @@
 
 import fs from "fs"
 import path from "path"
-import { execSync, spawnSync } from "child_process"
+import { spawnSync } from "child_process"
 import filenamify from 'filenamify';
 import * as cheerio from 'cheerio';
 
 const element = (html) => cheerio.load(html, {}, false)("*")
 
 const IGNORED_DIRS = [".obsidian", "Assets"]
+const CODE_COPY_BUTTON_HTML = element("<button class='copy-code-button' onclick='copyCodeBlock(event)'>copy</button>")
 
 const resourceDir = `${import.meta.dirname}/resources`
 
@@ -103,7 +104,8 @@ function getContent(path) {
         "-t", "html",
         `--resource-path=${assetsDir}`,
         "--embed-resources",
-        "--wrap=preserve"
+        "--wrap=preserve",
+        "--no-highlight"
     ];
 
     const proc = spawnSync("pandoc", args, {
@@ -174,7 +176,7 @@ function buildNavigationHierarchy(nodes, relativePath) {
 
         if (node.children) {
             const children = buildNavigationHierarchy(node.children, `${relativePath}/${node.path_part}`)
-            if (children){
+            if (children) {
                 li.append(children)
                 li.addClass("parent")
             }
@@ -204,6 +206,7 @@ function processToPages(nodes, htmlTemplate) {
             html("#page_title").text(node.title)
             html(`a.navtree[nav-title='${node.title.replaceAll(/'/g, "\\'")}']`).attr("selected", true)
             html(`#page_content`).append(node.content)
+            html("pre").prepend(CODE_COPY_BUTTON_HTML)
             node.content = html.html()
         }
 

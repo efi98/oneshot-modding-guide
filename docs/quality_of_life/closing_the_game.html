@@ -55,35 +55,14 @@ a:active {
   color: #FFFF00;
 }
 
-pre code.hljs {
-  overflow-x: hidden;
-  display: inline-block;
-}
-
 code {
   background: #202746;
   padding: 0 4px;
   margin: 0 -4px;
 }
 
-.sourceCode {
-  overflow-y: hidden;
-  overflow-x: hidden;
-}
-
-div.sourceCode>pre.sourceCode {
-  margin-top: 0;
-  max-height: 20rem;
-  overflow: auto;
-}
-
-div.sourceCode {
-  overflow-y: hidden;
-  overflow-x: hidden;
-}
-
 .copy-code-block-button {
-  width: 100%;
+  display: block;
 }
 
 
@@ -127,34 +106,13 @@ ul li .navtree {
   list-style-type: disc;
 }</style>
 	<script id="custom_script">
-function addCodeBlockCopyButtons() {
-	const codeBlocks = document.querySelectorAll("div.sourceCode")
-	for (block of codeBlocks) {
-		const button = createCodeBlockCopyButton()
-		block.prepend(button)
-	}
-}
-
-function createCodeBlockCopyButton() {
-	const b = document.createElement("button")
-	b.type = "button"
-	b.className = "copy-code-block-button"
-	b.title = "Copy"
-	b.onclick = copyCodeBlock
-	b.innerText = "copy"
-	return b
-}
-
 function copyCodeBlock(caller) {
-	console.log(caller.target.parentNode)
-	g = caller.target.parentNode.querySelector("code")
 	const content = caller.target.parentNode.querySelector("code").innerText.replace(/\u00a0/g, " ");
 	navigator.clipboard.writeText(content)
 }
 
 window.onload = () => {
 	hljs.highlightAll()
-	addCodeBlockCopyButtons()
 }</script>
 </head>
 
@@ -165,7 +123,7 @@ window.onload = () => {
 			<h1 id="page_title">Closing the Game</h1>
 		<p>Given OneShot’s nature, just closing the game becomes a hassle when repeated often, especially if you’re testing a long cutscene and need to cut it in the middle.</p>
 <p>You can use the task manager, a tool like <a href="https://stefansundin.github.io/superf4/">SuperF4</a>, or just this script to kill OneShot quicker:</p>
-<pre class="batch"><code>taskkill /F /IM oneshot.exe</code></pre>
+<pre class="powershell"><button class="copy-code-button" onclick="copyCodeBlock(event)">copy</button><code>taskkill /F /IM oneshot.exe</code></pre>
 <p>On the <a href="Script Layer" class="wikilink">Script Layer</a>, you could have the game check if you’re in debug mode when attempting to close the game for a quicker shut down, skipping all the checks and prompts.</p>
 <p>On the <a href="Engine Layer" class="wikilink">Engine Layer</a>, you could include a key bind to kill OneShot if you’re in debug mode.</p>
 </main>

@@ -1,7 +1,7 @@
 Given OneShot's nature, just closing the game becomes a hassle when repeated often, especially if you're testing a long cutscene and need to cut it in the middle.
 
 You can use the task manager, a tool like [SuperF4](https://stefansundin.github.io/superf4/), or just this script to kill OneShot quicker:
-```batch
+```powershell
 taskkill /F /IM oneshot.exe
 ```
 

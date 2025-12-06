@@ -55,35 +55,14 @@ a:active {
   color: #FFFF00;
 }
 
-pre code.hljs {
-  overflow-x: hidden;
-  display: inline-block;
-}
-
 code {
   background: #202746;
   padding: 0 4px;
   margin: 0 -4px;
 }
 
-.sourceCode {
-  overflow-y: hidden;
-  overflow-x: hidden;
-}
-
-div.sourceCode>pre.sourceCode {
-  margin-top: 0;
-  max-height: 20rem;
-  overflow: auto;
-}
-
-div.sourceCode {
-  overflow-y: hidden;
-  overflow-x: hidden;
-}
-
 .copy-code-block-button {
-  width: 100%;
+  display: block;
 }
 
 
@@ -127,34 +106,13 @@ ul li .navtree {
   list-style-type: disc;
 }</style>
 	<script id="custom_script">
-function addCodeBlockCopyButtons() {
-	const codeBlocks = document.querySelectorAll("div.sourceCode")
-	for (block of codeBlocks) {
-		const button = createCodeBlockCopyButton()
-		block.prepend(button)
-	}
-}
-
-function createCodeBlockCopyButton() {
-	const b = document.createElement("button")
-	b.type = "button"
-	b.className = "copy-code-block-button"
-	b.title = "Copy"
-	b.onclick = copyCodeBlock
-	b.innerText = "copy"
-	return b
-}
-
 function copyCodeBlock(caller) {
-	console.log(caller.target.parentNode)
-	g = caller.target.parentNode.querySelector("code")
 	const content = caller.target.parentNode.querySelector("code").innerText.replace(/\u00a0/g, " ");
 	navigator.clipboard.writeText(content)
 }
 
 window.onload = () => {
 	hljs.highlightAll()
-	addCodeBlockCopyButtons()
 }</script>
 </head>
 
@@ -180,9 +138,9 @@ An example of that can be found in the INIT map, where it checks <code>$debug</c
 <p>The overall usefulness besides quick access to the debug room is up to you.</p>
 <p>To set it up, create a file named <code>start_debug.bat</code> in the game’s folder, and write one of the following lines into it, depending on the version:</p>
 <p>Steam version:</p>
-<pre class="batch"><code>steamshim.exe --debugMode=true</code></pre>
+<pre class="powershell"><button class="copy-code-button" onclick="copyCodeBlock(event)">copy</button><code>steamshim.exe --debugMode=true</code></pre>
 <p>itch.io version:</p>
-<pre class="batch"><code>oneshot.exe --debugMode=true</code></pre>
+<pre class="powershell"><button class="copy-code-button" onclick="copyCodeBlock(event)">copy</button><code>oneshot.exe --debugMode=true</code></pre>
 <p>If you’ve changed the engine, then look into its documentation on how to apply debug mode, as it may have a better solution.</p>
 </main>
 	</div>

@@ -55,35 +55,14 @@ a:active {
   color: #FFFF00;
 }
 
-pre code.hljs {
-  overflow-x: hidden;
-  display: inline-block;
-}
-
 code {
   background: #202746;
   padding: 0 4px;
   margin: 0 -4px;
 }
 
-.sourceCode {
-  overflow-y: hidden;
-  overflow-x: hidden;
-}
-
-div.sourceCode>pre.sourceCode {
-  margin-top: 0;
-  max-height: 20rem;
-  overflow: auto;
-}
-
-div.sourceCode {
-  overflow-y: hidden;
-  overflow-x: hidden;
-}
-
 .copy-code-block-button {
-  width: 100%;
+  display: block;
 }
 
 
@@ -127,34 +106,13 @@ ul li .navtree {
   list-style-type: disc;
 }</style>
 	<script id="custom_script">
-function addCodeBlockCopyButtons() {
-	const codeBlocks = document.querySelectorAll("div.sourceCode")
-	for (block of codeBlocks) {
-		const button = createCodeBlockCopyButton()
-		block.prepend(button)
-	}
-}
-
-function createCodeBlockCopyButton() {
-	const b = document.createElement("button")
-	b.type = "button"
-	b.className = "copy-code-block-button"
-	b.title = "Copy"
-	b.onclick = copyCodeBlock
-	b.innerText = "copy"
-	return b
-}
-
 function copyCodeBlock(caller) {
-	console.log(caller.target.parentNode)
-	g = caller.target.parentNode.querySelector("code")
 	const content = caller.target.parentNode.querySelector("code").innerText.replace(/\u00a0/g, " ");
 	navigator.clipboard.writeText(content)
 }
 
 window.onload = () => {
 	hljs.highlightAll()
-	addCodeBlockCopyButtons()
 }</script>
 </head>
 
@@ -168,26 +126,26 @@ This requires editing a script file, and tilesets.</p>
 <h2 id="the-definition">The Definition</h2>
 <p>Each tileset is assigned a set of footstep sound effects it can use in the <code>Data_Footsteps</code> script.
 A short excerpt from said script:</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode ruby"><code class="sourceCode ruby"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="cn">FOOTSTEP_SFX</span> <span class="op">=</span> <span class="kw">[</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">[</span></span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>        <span class="vs">'step_wood'</span>,</span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>        <span class="vs">'step_tile'</span></span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>    <span class="kw">]</span>,</span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>    <span class="kw">[</span></span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>        <span class="vs">'step_gravel'</span>,</span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>        <span class="vs">'step_wood'</span></span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>    <span class="kw">]</span>,</span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>    <span class="kw">[</span></span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>        <span class="vs">'step_tile'</span>,</span>
-<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>        <span class="vs">'step_wood'</span>,</span>
-<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>        <span class="vs">'step_metal'</span></span>
-<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>    <span class="kw">]</span></span>
-<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="kw">]</span></span>
-<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a><span class="cn">FOOTSTEP_AMT</span> <span class="op">=</span> <span class="op">{</span></span>
-<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>  <span class="vs">'step_metal'</span> <span class="op">=&gt;</span> <span class="dv">4</span>,</span>
-<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>  <span class="vs">'step_tile'</span> <span class="op">=&gt;</span> <span class="dv">4</span></span>
-<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<pre class="ruby"><button class="copy-code-button" onclick="copyCodeBlock(event)">copy</button><code>FOOTSTEP_SFX = [
+    [
+        'step_wood',
+        'step_tile'
+    ],
+    [
+        'step_gravel',
+        'step_wood'
+    ],
+    [
+        'step_tile',
+        'step_wood',
+        'step_metal'
+    ]
+]
+
+FOOTSTEP_AMT = {
+  'step_metal' =&gt; 4,
+  'step_tile' =&gt; 4
+}</code></pre>
 <p>First, it assigns <code>wood</code> and <code>tile</code> to the first tileset in the tileset list, <code>gravel</code> and <code>wood</code> to the second, then <code>tile</code> <code>wood</code> and <code>metal</code> to the third.
 Notice that these names correspond to audio files in <code>/Audio/SE</code>, like <code>/Audio/SE/step_wood.wav</code>.</p>
 <p>But some sounds have variations, like in case of <code>step_metal</code>, which has <code>step_metal01.wav</code> through <code>step_metal04.wav</code>.

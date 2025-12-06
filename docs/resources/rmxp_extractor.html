@@ -55,35 +55,14 @@ a:active {
   color: #FFFF00;
 }
 
-pre code.hljs {
-  overflow-x: hidden;
-  display: inline-block;
-}
-
 code {
   background: #202746;
   padding: 0 4px;
   margin: 0 -4px;
 }
 
-.sourceCode {
-  overflow-y: hidden;
-  overflow-x: hidden;
-}
-
-div.sourceCode>pre.sourceCode {
-  margin-top: 0;
-  max-height: 20rem;
-  overflow: auto;
-}
-
-div.sourceCode {
-  overflow-y: hidden;
-  overflow-x: hidden;
-}
-
 .copy-code-block-button {
-  width: 100%;
+  display: block;
 }
 
 
@@ -127,34 +106,13 @@ ul li .navtree {
   list-style-type: disc;
 }</style>
 	<script id="custom_script">
-function addCodeBlockCopyButtons() {
-	const codeBlocks = document.querySelectorAll("div.sourceCode")
-	for (block of codeBlocks) {
-		const button = createCodeBlockCopyButton()
-		block.prepend(button)
-	}
-}
-
-function createCodeBlockCopyButton() {
-	const b = document.createElement("button")
-	b.type = "button"
-	b.className = "copy-code-block-button"
-	b.title = "Copy"
-	b.onclick = copyCodeBlock
-	b.innerText = "copy"
-	return b
-}
-
 function copyCodeBlock(caller) {
-	console.log(caller.target.parentNode)
-	g = caller.target.parentNode.querySelector("code")
 	const content = caller.target.parentNode.querySelector("code").innerText.replace(/\u00a0/g, " ");
 	navigator.clipboard.writeText(content)
 }
 
 window.onload = () => {
 	hljs.highlightAll()
-	addCodeBlockCopyButtons()
 }</script>
 </head>
 
@@ -188,11 +146,11 @@ See the examples section at the end of this document.</p>
 <li>Go to your OneShot directory</li>
 <li>Create a file named <code>extract.bat</code>, and add this line to it:</li>
 </ol>
-<pre class="batch"><code>rmxp_extractor export json scripts</code></pre>
+<pre class="powershell"><button class="copy-code-button" onclick="copyCodeBlock(event)">copy</button><code>rmxp_extractor export json scripts</code></pre>
 <ol start="5" type="1">
 <li>Create a file named <code>import.bat</code>, and add this line to it:</li>
 </ol>
-<pre class="batch"><code>rmxp_extractor import json scripts</code></pre>
+<pre class="powershell"><button class="copy-code-button" onclick="copyCodeBlock(event)">copy</button><code>rmxp_extractor import json scripts</code></pre>
 <p>You only need to repeat <code>1)</code> and <code>2)</code> once per system, the rest are to be repeated per project.</p>
 <hr>
 <h2 id="exporting">Exporting</h2>

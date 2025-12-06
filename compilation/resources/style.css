@@ -47,35 +47,14 @@ a:active {
   color: #FFFF00;
 }
 
-pre code.hljs {
-  overflow-x: hidden;
-  display: inline-block;
-}
-
 code {
   background: #202746;
   padding: 0 4px;
   margin: 0 -4px;
 }
 
-.sourceCode {
-  overflow-y: hidden;
-  overflow-x: hidden;
-}
-
-div.sourceCode>pre.sourceCode {
-  margin-top: 0;
-  max-height: 20rem;
-  overflow: auto;
-}
-
-div.sourceCode {
-  overflow-y: hidden;
-  overflow-x: hidden;
-}
-
 .copy-code-block-button {
-  width: 100%;
+  display: block;
 }
 
 
