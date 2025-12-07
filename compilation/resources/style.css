@@ -157,7 +157,7 @@ video {
     background: var(--color-side-bg);
     overflow-y: auto;
     direction: rtl;
-    box-shadow: 0 0 50px 5px rgb(0 0 0 / 30%);
+    box-shadow: var(--side-box-shadow);
     z-index: 1;
 }
 
