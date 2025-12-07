@@ -47,5 +47,5 @@ function hideSidebar() {
 window.onload = () => {
     hljs.highlightAll();
     const theme = loadTheme();
-    toggleTheme(theme);
+    toggleTheme(theme || 'dark');
 }
