@@ -7,7 +7,7 @@ permissions:
   id-token: write
   pages: write
   actions: read
-  contents: read
+  contents: write
 
 jobs:
   build-docs:
