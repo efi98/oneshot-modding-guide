@@ -135,6 +135,25 @@ a:active {
     color: var(--color-link);
 }
 
+pre {
+    position: relative;
+}
+
+.copy-code-button {
+    position: absolute;
+    top: 0.5rem;
+    right: 0.5rem;
+    padding: 2px 8px;
+    font-size: 0.8em;
+    cursor: pointer;
+    z-index: 1;
+    background: var(--color-content-bg);
+    outline: none;
+    border: 1px solid var(--color-link);
+    color: var(--color-link);
+    border-radius: 3px;
+}
+
 code {
     background: var(--color-code-bg);
     padding: 0 4px;
@@ -288,8 +307,8 @@ ul.navtree li a.navtree[selected="true"] {
 </style>
     <script id="custom_script">function copyCodeBlock(caller) {
     const content = caller.target.parentNode.querySelector("code").innerText.replace(/\u00a0/g, " ");
-    navigator.clipboard.writeText(content).then(r => {
-        console.log('Copied!', r);
+    navigator.clipboard.writeText(content).then(() => {
+        console.log('Copied!');
     })
 }
 
@@ -383,7 +402,7 @@ For the game to see the changes, you must follow these steps <strong>every time 
 <p>While more advanced, this setup is one and done, but requires some additional tools and packing the scripts for releases.</p>
 <p>Use the <a href="RMXP Extractor" title="wikilink">RMXP Extractor</a> to extract the scripts, which will create the <code>scripts</code> folder with the extracted script files, and a <code>_scripts.txt</code> file.</p>
 <p>Then set this as the only RPG Maker script via the editor:</p>
-<pre class="ruby"><button class="copy-code-button" onclick="copyCodeBlock(event)">copy</button><code>SCRIPTS_ROOT = "scripts"
+<pre class="ruby"><button class="copy-code-button" onclick="copyCodeBlock(event)">Copy</button><code>SCRIPTS_ROOT = "scripts"
 
 list_path = File.join(SCRIPTS_ROOT, "_scripts.txt")
 IO.foreach(list_path) do |name|

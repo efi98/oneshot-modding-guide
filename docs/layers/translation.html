@@ -135,6 +135,25 @@ a:active {
     color: var(--color-link);
 }
 
+pre {
+    position: relative;
+}
+
+.copy-code-button {
+    position: absolute;
+    top: 0.5rem;
+    right: 0.5rem;
+    padding: 2px 8px;
+    font-size: 0.8em;
+    cursor: pointer;
+    z-index: 1;
+    background: var(--color-content-bg);
+    outline: none;
+    border: 1px solid var(--color-link);
+    color: var(--color-link);
+    border-radius: 3px;
+}
+
 code {
     background: var(--color-code-bg);
     padding: 0 4px;
@@ -288,8 +307,8 @@ ul.navtree li a.navtree[selected="true"] {
 </style>
     <script id="custom_script">function copyCodeBlock(caller) {
     const content = caller.target.parentNode.querySelector("code").innerText.replace(/\u00a0/g, " ");
-    navigator.clipboard.writeText(content).then(r => {
-        console.log('Copied!', r);
+    navigator.clipboard.writeText(content).then(() => {
+        console.log('Copied!');
     })
 }
 
@@ -360,14 +379,14 @@ This means you can’t add or remove lines, just translate a line of text to ano
 <h2 id="adding-a-language">Adding a Language</h2>
 <p>To have your language selectable in game, you must edit the <code>language.fonts.ini</code> file to include your language, and indicate which font it should use.
 The format is:</p>
-<pre><button class="copy-code-button" onclick="copyCodeBlock(event)">copy</button><code>language_code=font</code></pre>
+<pre><button class="copy-code-button" onclick="copyCodeBlock(event)">Copy</button><code>language_code=font</code></pre>
 <p>You will have to look up the language code for your language if you don’t know what it is.</p>
 <p>For example, these contents will allow selecting English, Russian, and Chinese (Simplified):</p>
-<pre><button class="copy-code-button" onclick="copyCodeBlock(event)">copy</button><code>en=Terminus (TTF)
+<pre><button class="copy-code-button" onclick="copyCodeBlock(event)">Copy</button><code>en=Terminus (TTF)
 ru=Terminus (TTF)
 zh_CN=WenQuanYi Micro Hei</code></pre>
 <p>So if you are to add Turkish and Brazilian Portuguese, it’d look like this:</p>
-<pre><button class="copy-code-button" onclick="copyCodeBlock(event)">copy</button><code>en=Terminus (TTF)
+<pre><button class="copy-code-button" onclick="copyCodeBlock(event)">Copy</button><code>en=Terminus (TTF)
 ru=Terminus (TTF)
 tr=Terminus (TTF)
 pt_BR=Terminus (TTF)
@@ -378,7 +397,7 @@ You can see which fonts are available in vanilla OneShot’s <code>Fonts</code> 
 <h2 id="text">Text</h2>
 <p>OneShot uses the PO standard for translating text, which you can either use a plain text editor like <code>Notepad++</code>, or a dedicated program like <a href="https://poedit.net/">po edit</a>.</p>
 <p>If you’re editing with a plain text editor, the format is: (See the template file for more examples)</p>
-<pre><button class="copy-code-button" onclick="copyCodeBlock(event)">copy</button><code># Comment, usually indicating where the text is used
+<pre><button class="copy-code-button" onclick="copyCodeBlock(event)">Copy</button><code># Comment, usually indicating where the text is used
 msgid "Untranslated text"
 msgstr "Translated text"</code></pre>
 <p>If you’re using <code>po edit</code>, then <code>msgid</code> is the <code>source text</code>, and <code>msgstr</code> is <code>translation</code>.</p>
@@ -391,12 +410,12 @@ Now you mostly go over the entire file to replace text.</p>
 There are puns based on the English language which may not translate well to other languages.</p></li>
 <li><p>You must add your language code to the file: (See <code>en.po</code> for example)</p></li>
 </ul>
-<pre><button class="copy-code-button" onclick="copyCodeBlock(event)">copy</button><code>msgid "language code"
+<pre><button class="copy-code-button" onclick="copyCodeBlock(event)">Copy</button><code>msgid "language code"
 msgstr "Displayed text"</code></pre>
 <ul>
 <li>You must add the localization version:</li>
 </ul>
-<pre><button class="copy-code-button" onclick="copyCodeBlock(event)">copy</button><code>msgid "POT_VERSION"
+<pre><button class="copy-code-button" onclick="copyCodeBlock(event)">Copy</button><code>msgid "POT_VERSION"
 msgstr "1.0.0"</code></pre>
 <ul>
 <li>These characters are replaced in text with something else:

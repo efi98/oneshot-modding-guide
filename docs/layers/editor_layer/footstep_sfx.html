@@ -135,6 +135,25 @@ a:active {
     color: var(--color-link);
 }
 
+pre {
+    position: relative;
+}
+
+.copy-code-button {
+    position: absolute;
+    top: 0.5rem;
+    right: 0.5rem;
+    padding: 2px 8px;
+    font-size: 0.8em;
+    cursor: pointer;
+    z-index: 1;
+    background: var(--color-content-bg);
+    outline: none;
+    border: 1px solid var(--color-link);
+    color: var(--color-link);
+    border-radius: 3px;
+}
+
 code {
     background: var(--color-code-bg);
     padding: 0 4px;
@@ -288,8 +307,8 @@ ul.navtree li a.navtree[selected="true"] {
 </style>
     <script id="custom_script">function copyCodeBlock(caller) {
     const content = caller.target.parentNode.querySelector("code").innerText.replace(/\u00a0/g, " ");
-    navigator.clipboard.writeText(content).then(r => {
-        console.log('Copied!', r);
+    navigator.clipboard.writeText(content).then(() => {
+        console.log('Copied!');
     })
 }
 
@@ -354,7 +373,7 @@ This requires editing a script file, and tilesets.</p>
 <h2 id="the-definition">The Definition</h2>
 <p>Each tileset is assigned a set of footstep sound effects it can use in the <code>Data_Footsteps</code> script.
 A short excerpt from said script:</p>
-<pre class="ruby"><button class="copy-code-button" onclick="copyCodeBlock(event)">copy</button><code>FOOTSTEP_SFX = [
+<pre class="ruby"><button class="copy-code-button" onclick="copyCodeBlock(event)">Copy</button><code>FOOTSTEP_SFX = [
     [
         'step_wood',
         'step_tile'
