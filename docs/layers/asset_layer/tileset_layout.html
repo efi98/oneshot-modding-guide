@@ -1,133 +1,361 @@
-<!DOCTYPE html><html><head>
-	<meta charset="utf-8">
+<!DOCTYPE html><html lang="en"><head>
+    <meta charset="utf-8">
 
-	<title>Tileset Layout</title>
+    <title>Tileset Layout</title>
+    <link rel="icon" type="image/png" href="favicon.ico">
 
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/styles/base16/atelier-sulphurpool.min.css">
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/highlight.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/styles/base16/atelier-sulphurpool.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/highlight.min.js"></script>
 
-	<style id="custom_style">@font-face {
-  font-family: 'Terminus TTF';
-  src: url('TerminusTTF.ttf') format('truetype');
+    <style id="custom_style">:root {
+    /* Colors */
+    --color-text: #E4E0EB;
+    --color-heading: #FFFFFF;
+    --color-link: #F6E748;
+    --color-link-active: #ffde00;
+    --color-code-bg: #1F2442;
+    --color-side-bg: #543182;
+    --color-content-bg: #3A1C63;
+    --color-hover-link: color-mix(in srgb, var(--color-link) 40%, white);
+    --color-hover-link-bg: rgba(255, 255, 255, 0.12);
+    --side-box-shadow: 0 0 50px 5px rgb(0 0 0 / 30%);
+
+    /* Fonts */
+    --font-body: Calibri, serif;
+    --font-heading: Calibri, serif;
+    --font-code: 'Terminus TTF', monospace;
+
+    /* Sizing */
+    --font-h1: 4rem;
+    --font-h2: 3rem;
+    --font-h3: 2.5rem;
+    --font-h4: 2rem;
+    --font-p: 1.5rem;
+
+    /* Layout */
+    --side-min-width: 240px;
+    --side-max-width: 25%;
+}
+
+.light {
+    --color-text: #2D2342;
+    --color-heading: #3A1C63;
+    --color-link: #7e6b00;
+    --color-link-active: #FFD600;
+    --color-code-bg: #F3F0FF;
+    --color-side-bg: #efe1ff;
+    --color-content-bg: #F8F6FF;
+    --color-hover-link: color-mix(in srgb, var(--color-link) 40%, #3a1c63);
+    --color-hover-link-bg: rgb(126 121 0 / 12%);
+    --side-box-shadow: 0 0 18px 4px rgb(213 193 233 / 75%);
+}
+
+/*@font-face {*/
+/*    font-family: 'Terminus TTF';*/
+/*    src: url('TerminusTTF.ttf') format('truetype');*/
+/*}*/
+
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: transparent;
+    border-width: 0;
+    border-radius: 8px;
+}
+
+*::-webkit-scrollbar-thumb {
+    background: color-mix(in srgb, var(--color-link), transparent 50%);
+    border-radius: 8px;
+    border: 2px solid transparent; /* creates padding effect */
+    background-clip: content-box;
+}
+
+*:hover {
+    &::-webkit-scrollbar-track {
+        /*background: rgba(0, 0, 0, 0.2);*/
+    }
+
+    &::-webkit-scrollbar-thumb {
+        background: var(--color-link);
+        border: 2px solid transparent;
+        background-clip: content-box;
+    }
+}
+
+@supports (-moz-appearance: none) {
+    * {
+        scrollbar-width: thin;
+        scrollbar-color: var(--color-link) transparent;
+    }
 }
 
 html,
 body {
-  height: 100%;
-  margin: 0;
-  color: #E1E1E1;
+    font-size: 14px;
+    font-family: Calibri, serif;
+    height: 100%;
+    margin: 0;
+    color: var(--color-text);
+    overflow: hidden;
 }
 
 p {
-  white-space: pre-wrap;
-  margin-top: 0;
-  font-size: 1.5rem;
+    white-space: pre-wrap;
+    margin-top: 0;
+    font-size: var(--font-p);
 }
 
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-  color: white;
-  margin-bottom: 0;
+h1, h2, h3, h4, h5, h6 {
+    color: var(--color-heading);
+    margin-bottom: 0;
 }
 
-h1 { font-size: 4rem; }
-h2 { font-size: 3rem; }
-h3 { font-size: 2.5rem; }
-h4 { font-size: 2rem; }
-
-a:link {
-  color: #FFFF00;
+h1 {
+    font-size: var(--font-h1);
 }
 
-a:visited {
-  color: #FFFF00;
+h2 {
+    font-size: var(--font-h2);
 }
 
-a:hover {
-  color: #FFFF00;
+h3 {
+    font-size: var(--font-h3);
 }
 
+h4 {
+    font-size: var(--font-h4);
+}
+
+a:link,
+a:visited,
+a:hover,
 a:active {
-  color: #FFFF00;
+    color: var(--color-link);
 }
 
 code {
-  background: #202746;
-  padding: 0 4px;
-  margin: 0 -4px;
+    background: var(--color-code-bg);
+    padding: 0 4px;
+    margin: 0 -4px;
 }
 
 .copy-code-block-button {
-  display: block;
+    display: block;
 }
 
 
 img,
 video {
-  max-width: 100%;
+    max-width: 100%;
 }
 
 .layout {
-  display: flex;
-  height: 100%;
+    display: flex;
+    height: 100%;
 }
 
+/*Aside*/
+
 .side {
-  min-width: 240px;
-  max-width: 25%;
-  background: #4f2b77;
-  overflow-y: scroll;
-  direction: rtl;
+    font-size: 1rem;
+    padding: 0 0 0 1rem;
+    min-width: var(--side-min-width);
+    max-width: var(--side-max-width);
+    background: var(--color-side-bg);
+    overflow-y: auto;
+    direction: rtl;
+    z-index: 1;
+    box-shadow: var(--side-box-shadow);
+}
+
+.side.active {
+    transform: translateX(0);
+    box-shadow: 0 0 50px 5px rgb(0 0 0 / 30%);
 }
 
 .side * {
-  direction: ltr;
+    direction: ltr;
 }
 
 .content {
-  width: 100%;
-  height: 100%;
-  overflow-y: auto;
-  background: #34135A;
-  padding: 1rem;
-  box-sizing: border-box;
+    width: 100%;
+    height: 100%;
+    overflow-y: auto;
+    background: var(--color-content-bg);
+    padding: 1rem;
+    box-sizing: border-box;
 }
 
 ul.navtree {
-  padding-left: 20px;
-  padding-right: 5px;
+    list-style: none;
+    padding-left: 1rem;
+    margin-left: 0;
+    padding-right: 5px;
 }
 
-ul li .navtree {
-  list-style-type: disc;
-}</style>
-	<script id="custom_script">
-function copyCodeBlock(caller) {
-	const content = caller.target.parentNode.querySelector("code").innerText.replace(/\u00a0/g, " ");
-	navigator.clipboard.writeText(content)
+ul.navtree li {
+    margin: 0.2rem 0;
+}
+
+ul.navtree li a.navtree,
+ul.navtree li span.navtree {
+    display: block;
+    padding: 0.3rem 0.4rem;
+    text-decoration: none;
+    border-radius: 4px;
+    transition: background-color 0.15s ease, color 0.15s ease;
+    /*border-left: 1px solid transparent;*/
+}
+
+ul.navtree li.navtree.parent a.navtree {
+    /*padding-left: 0.8rem;*/
+}
+
+.navtree.parent > a::before {
+    content: "▼";
+    display: inline-block;
+    margin-left: -1.5em;
+    margin-right: 0.5em;
+    font-size: 0.8em;
+}
+
+/* Hover styles */
+ul.navtree li a.navtree:hover {
+    background: var(--color-hover-link-bg);
+    color: var(--color-hover-link);
+}
+
+ul.navtree li a.navtree[selected="true"] {
+    letter-spacing: 1px;
+    text-decoration: underline;
+    font-weight: bold;
+    /*border-radius: 0 4px 4px 0;*/
+    /*color: var(--color-link-active);*/
+    /*border-left: 2px solid var(--color-link-active);*/
+}
+
+.btn-primary {
+    position: absolute;
+    background: var(--color-side-bg);
+    color: var(--color-link);
+    border: none;
+    border-radius: 20%;
+    width: 3rem;
+    height: 3rem;
+    font-size: 1.5rem;
+    cursor: pointer;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    transition: background 0.2s, color 0.2s;
+}
+
+#theme-toggle {
+    top: 1rem;
+    right: 1rem;
+}
+
+#hamburger-menu {
+    display: none;
+    top: 1rem;
+    left: 1rem;
+}
+
+#side-backdrop {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.2);
+}
+
+/*responsive settings*/
+@media (max-width: 600px) {
+    .side {
+        min-width: var(--side-min-width);
+        max-width: 80vw;
+        transition: transform 0.3s cubic-bezier(.4, 0, .2, 1), box-shadow 0.3s;
+        transform: translateX(-100%);
+        position: fixed;
+        left: 0;
+        top: 0;
+        height: 100%;
+    }
+
+    #hamburger-menu {
+        display: block;
+    }
+}
+</style>
+    <script id="custom_script">function copyCodeBlock(caller) {
+    const content = caller.target.parentNode.querySelector("code").innerText.replace(/\u00a0/g, " ");
+    navigator.clipboard.writeText(content).then(r => {
+        console.log('Copied!', r);
+    })
+}
+
+function toggleTheme(theme = null) {
+    if (theme !== 'dark') {
+        document.body.classList.toggle('light');
+    }
+    const icon = document.getElementById('theme-icon');
+    if (document.body.classList.contains('light')) {
+        setTheme('light');
+        icon.textContent = '☀️';
+    } else {
+        setTheme('dark');
+        icon.textContent = '🌙';
+    }
+}
+
+function loadTheme() {
+    let theme = localStorage.getItem('theme');
+    return theme ?? '';
+}
+
+function setTheme(theme) {
+    localStorage.setItem('theme', theme);
+}
+
+function showSidebar() {
+    const side = document.getElementsByTagName('aside')[0];
+    const backdrop = document.getElementById('side-backdrop');
+    side.classList.add('active');
+    side.style.display = 'block';
+    backdrop.style.display = 'block';
+}
+
+function hideSidebar() {
+    const side = document.getElementsByTagName('aside')[0];
+    const backdrop = document.getElementById('side-backdrop');
+    side.classList.remove('active');
+    side.style.display = '';
+    backdrop.style.display = 'none';
 }
 
 window.onload = () => {
-	hljs.highlightAll()
+    hljs.highlightAll();
+    const theme = loadTheme();
+    toggleTheme(theme || 'dark');
 }</script>
 </head>
 
 <body>
-	<div class="layout">
-		<aside id="navigation_tree" class="side"> <ul class="navtree"><li class="navtree"><a class="navtree" href="/oneshot-modding-guide/index.html" nav-title="Index">Index</a></li><li class="navtree"><a class="navtree" href="/oneshot-modding-guide/for_players.html" nav-title="For Players">For Players</a></li><li class="navtree"><a class="navtree" href="/oneshot-modding-guide/things_to_consider.html" nav-title="Things to Consider">Things to Consider</a></li><li class="navtree parent"><a class="navtree" href="/oneshot-modding-guide/layers.html" nav-title="Layers">Layers</a><ul class="navtree"><li class="navtree"><a class="navtree" href="/oneshot-modding-guide/layers/translation.html" nav-title="Translation">Translation</a></li><li class="navtree parent"><a class="navtree" href="/oneshot-modding-guide/layers/asset_layer.html" nav-title="Asset Layer">Asset Layer</a><ul class="navtree"><li class="navtree"><a class="navtree" href="/oneshot-modding-guide/layers/asset_layer/character_sprite_layout.html" nav-title="Character Sprite Layout">Character Sprite Layout</a></li><li class="navtree"><a class="navtree" href="/oneshot-modding-guide/layers/asset_layer/light_maps.html" nav-title="Light Maps">Light Maps</a></li><li class="navtree"><a class="navtree" href="/oneshot-modding-guide/layers/asset_layer/tileset_layout.html" nav-title="Tileset Layout" selected="true">Tileset Layout</a></li><li class="navtree"><a class="navtree" href="/oneshot-modding-guide/layers/asset_layer/visual_style_guide.html" nav-title="Visual Style Guide">Visual Style Guide</a></li></ul></li><li class="navtree parent"><a class="navtree" href="/oneshot-modding-guide/layers/editor_layer.html" nav-title="Editor Layer">Editor Layer</a><ul class="navtree"><li class="navtree"><a class="navtree" href="/oneshot-modding-guide/layers/editor_layer/common_text.html" nav-title="Common Text">Common Text</a></li><li class="navtree"><a class="navtree" href="/oneshot-modding-guide/layers/editor_layer/init_events.html" nav-title="Init Events">Init Events</a></li><li class="navtree"><a class="navtree" href="/oneshot-modding-guide/layers/editor_layer/wide_map_transfers.html" nav-title="Wide Map Transfers">Wide Map Transfers</a></li><li class="navtree"><a class="navtree" href="/oneshot-modding-guide/layers/editor_layer/item_combinations.html" nav-title="Item Combinations">Item Combinations</a></li><li class="navtree"><a class="navtree" href="/oneshot-modding-guide/layers/editor_layer/fast_travel.html" nav-title="Fast Travel">Fast Travel</a></li><li class="navtree"><a class="navtree" href="/oneshot-modding-guide/layers/editor_layer/footstep_sfx.html" nav-title="Footstep SFX">Footstep SFX</a></li></ul></li><li class="navtree parent"><a class="navtree" href="/oneshot-modding-guide/layers/script_layer.html" nav-title="Script Layer">Script Layer</a><ul class="navtree"><li class="navtree"><a class="navtree" href="/oneshot-modding-guide/layers/script_layer/modifying_scripts.html" nav-title="Modifying Scripts">Modifying Scripts</a></li></ul></li><li class="navtree parent"><a class="navtree" href="/oneshot-modding-guide/layers/engine_layer.html" nav-title="Engine Layer">Engine Layer</a><ul class="navtree"><li class="navtree"><a class="navtree" href="/oneshot-modding-guide/layers/engine_layer/using_a_different_engine.html" nav-title="Using a Different Engine">Using a Different Engine</a></li></ul></li></ul></li><li class="navtree"><a class="navtree" href="/oneshot-modding-guide/journal_app.html" nav-title="Journal App">Journal App</a></li><li class="navtree"><a class="navtree" href="/oneshot-modding-guide/save_directory.html" nav-title="Save Directory">Save Directory</a></li><li class="navtree"><a class="navtree" href="/oneshot-modding-guide/collaboration_&amp;_version_control.html" nav-title="Collaboration &amp; Version Control">Collaboration &amp; Version Control</a></li><li class="navtree parent"><span class="navtree" nav-title="Quality of Life">Quality of Life</span><ul class="navtree"><li class="navtree"><a class="navtree" href="/oneshot-modding-guide/quality_of_life/frozen_editor_during_playtesting.html" nav-title="Frozen Editor During Playtesting">Frozen Editor During Playtesting</a></li><li class="navtree"><a class="navtree" href="/oneshot-modding-guide/quality_of_life/closing_the_game.html" nav-title="Closing the Game">Closing the Game</a></li><li class="navtree"><a class="navtree" href="/oneshot-modding-guide/quality_of_life/debug_mode.html" nav-title="Debug Mode">Debug Mode</a></li><li class="navtree parent"><a class="navtree" href="/oneshot-modding-guide/quality_of_life/supplementary_scripts.html" nav-title="Supplementary Scripts">Supplementary Scripts</a><ul class="navtree"><li class="navtree"><a class="navtree" href="/oneshot-modding-guide/quality_of_life/supplementary_scripts/easier_debug.html" nav-title="Easier Debug">Easier Debug</a></li><li class="navtree"><a class="navtree" href="/oneshot-modding-guide/quality_of_life/supplementary_scripts/live_map_modification.html" nav-title="Live Map Modification">Live Map Modification</a></li><li class="navtree"><a class="navtree" href="/oneshot-modding-guide/quality_of_life/supplementary_scripts/noclip.html" nav-title="Noclip">Noclip</a></li><li class="navtree"><a class="navtree" href="/oneshot-modding-guide/quality_of_life/supplementary_scripts/seeing_collisions.html" nav-title="Seeing Collisions">Seeing Collisions</a></li><li class="navtree"><a class="navtree" href="/oneshot-modding-guide/quality_of_life/supplementary_scripts/event_labels.html" nav-title="Event Labels">Event Labels</a></li><li class="navtree"><a class="navtree" href="/oneshot-modding-guide/quality_of_life/supplementary_scripts/other_event's_self_switches.html" nav-title="Other Event's Self Switches">Other Event's Self Switches</a></li><li class="navtree"><a class="navtree" href="/oneshot-modding-guide/quality_of_life/supplementary_scripts/calling_events.html" nav-title="Calling Events">Calling Events</a></li></ul></li><li class="navtree"><a class="navtree" href="/oneshot-modding-guide/quality_of_life/editor_version.html" nav-title="Editor Version">Editor Version</a></li></ul></li><li class="navtree"><a class="navtree" href="/oneshot-modding-guide/distribution.html" nav-title="Distribution">Distribution</a></li><li class="navtree parent"><span class="navtree" nav-title="Resources">Resources</span><ul class="navtree"><li class="navtree"><a class="navtree" href="/oneshot-modding-guide/resources/dialogue_transcript.html" nav-title="Dialogue Transcript">Dialogue Transcript</a></li><li class="navtree"><a class="navtree" href="/oneshot-modding-guide/resources/fonts.html" nav-title="Fonts">Fonts</a></li><li class="navtree"><a class="navtree" href="/oneshot-modding-guide/resources/rmxp_extractor.html" nav-title="RMXP Extractor">RMXP Extractor</a></li></ul></li></ul></aside>
-		<main id="page_content" class="content">
-			<h1 id="page_title">Tileset Layout</h1>
-		<p>Tilesets are an atlas of tiles placed down on the map.
+<button id="theme-toggle" class="btn-primary" onclick="toggleTheme()">
+    <span id="theme-icon">🌙</span>
+</button>
+<button id="hamburger-menu" class="btn-primary" onclick="showSidebar()">☰</button>
+<div id="side-backdrop" onclick="hideSidebar()"></div>
+<div class="layout">
+    <aside id="navigation_tree" class="side"><ul class="navtree"><li class="navtree"><a class="navtree" href="/oneshot-modding-guide/index.html" nav-title="Index">Index</a></li><li class="navtree"><a class="navtree" href="/oneshot-modding-guide/for_players.html" nav-title="For Players">For Players</a></li><li class="navtree"><a class="navtree" href="/oneshot-modding-guide/things_to_consider.html" nav-title="Things to Consider">Things to Consider</a></li><li class="navtree parent"><a class="navtree" href="/oneshot-modding-guide/layers.html" nav-title="Layers">Layers</a><ul class="navtree"><li class="navtree"><a class="navtree" href="/oneshot-modding-guide/layers/translation.html" nav-title="Translation">Translation</a></li><li class="navtree parent"><a class="navtree" href="/oneshot-modding-guide/layers/asset_layer.html" nav-title="Asset Layer">Asset Layer</a><ul class="navtree"><li class="navtree"><a class="navtree" href="/oneshot-modding-guide/layers/asset_layer/character_sprite_layout.html" nav-title="Character Sprite Layout">Character Sprite Layout</a></li><li class="navtree"><a class="navtree" href="/oneshot-modding-guide/layers/asset_layer/light_maps.html" nav-title="Light Maps">Light Maps</a></li><li class="navtree"><a class="navtree" href="/oneshot-modding-guide/layers/asset_layer/tileset_layout.html" nav-title="Tileset Layout" selected="true">Tileset Layout</a></li><li class="navtree"><a class="navtree" href="/oneshot-modding-guide/layers/asset_layer/visual_style_guide.html" nav-title="Visual Style Guide">Visual Style Guide</a></li></ul></li><li class="navtree parent"><a class="navtree" href="/oneshot-modding-guide/layers/editor_layer.html" nav-title="Editor Layer">Editor Layer</a><ul class="navtree"><li class="navtree"><a class="navtree" href="/oneshot-modding-guide/layers/editor_layer/common_text.html" nav-title="Common Text">Common Text</a></li><li class="navtree"><a class="navtree" href="/oneshot-modding-guide/layers/editor_layer/init_events.html" nav-title="Init Events">Init Events</a></li><li class="navtree"><a class="navtree" href="/oneshot-modding-guide/layers/editor_layer/wide_map_transfers.html" nav-title="Wide Map Transfers">Wide Map Transfers</a></li><li class="navtree"><a class="navtree" href="/oneshot-modding-guide/layers/editor_layer/item_combinations.html" nav-title="Item Combinations">Item Combinations</a></li><li class="navtree"><a class="navtree" href="/oneshot-modding-guide/layers/editor_layer/fast_travel.html" nav-title="Fast Travel">Fast Travel</a></li><li class="navtree"><a class="navtree" href="/oneshot-modding-guide/layers/editor_layer/footstep_sfx.html" nav-title="Footstep SFX">Footstep SFX</a></li></ul></li><li class="navtree parent"><a class="navtree" href="/oneshot-modding-guide/layers/script_layer.html" nav-title="Script Layer">Script Layer</a><ul class="navtree"><li class="navtree"><a class="navtree" href="/oneshot-modding-guide/layers/script_layer/modifying_scripts.html" nav-title="Modifying Scripts">Modifying Scripts</a></li></ul></li><li class="navtree parent"><a class="navtree" href="/oneshot-modding-guide/layers/engine_layer.html" nav-title="Engine Layer">Engine Layer</a><ul class="navtree"><li class="navtree"><a class="navtree" href="/oneshot-modding-guide/layers/engine_layer/using_a_different_engine.html" nav-title="Using a Different Engine">Using a Different Engine</a></li></ul></li></ul></li><li class="navtree"><a class="navtree" href="/oneshot-modding-guide/journal_app.html" nav-title="Journal App">Journal App</a></li><li class="navtree"><a class="navtree" href="/oneshot-modding-guide/save_directory.html" nav-title="Save Directory">Save Directory</a></li><li class="navtree"><a class="navtree" href="/oneshot-modding-guide/collaboration_&amp;_version_control.html" nav-title="Collaboration &amp; Version Control">Collaboration &amp; Version Control</a></li><li class="navtree parent"><span class="navtree" nav-title="Quality of Life">Quality of Life</span><ul class="navtree"><li class="navtree"><a class="navtree" href="/oneshot-modding-guide/quality_of_life/frozen_editor_during_playtesting.html" nav-title="Frozen Editor During Playtesting">Frozen Editor During Playtesting</a></li><li class="navtree"><a class="navtree" href="/oneshot-modding-guide/quality_of_life/closing_the_game.html" nav-title="Closing the Game">Closing the Game</a></li><li class="navtree"><a class="navtree" href="/oneshot-modding-guide/quality_of_life/debug_mode.html" nav-title="Debug Mode">Debug Mode</a></li><li class="navtree parent"><a class="navtree" href="/oneshot-modding-guide/quality_of_life/supplementary_scripts.html" nav-title="Supplementary Scripts">Supplementary Scripts</a><ul class="navtree"><li class="navtree"><a class="navtree" href="/oneshot-modding-guide/quality_of_life/supplementary_scripts/easier_debug.html" nav-title="Easier Debug">Easier Debug</a></li><li class="navtree"><a class="navtree" href="/oneshot-modding-guide/quality_of_life/supplementary_scripts/live_map_modification.html" nav-title="Live Map Modification">Live Map Modification</a></li><li class="navtree"><a class="navtree" href="/oneshot-modding-guide/quality_of_life/supplementary_scripts/noclip.html" nav-title="Noclip">Noclip</a></li><li class="navtree"><a class="navtree" href="/oneshot-modding-guide/quality_of_life/supplementary_scripts/seeing_collisions.html" nav-title="Seeing Collisions">Seeing Collisions</a></li><li class="navtree"><a class="navtree" href="/oneshot-modding-guide/quality_of_life/supplementary_scripts/event_labels.html" nav-title="Event Labels">Event Labels</a></li><li class="navtree"><a class="navtree" href="/oneshot-modding-guide/quality_of_life/supplementary_scripts/other_event's_self_switches.html" nav-title="Other Event's Self Switches">Other Event's Self Switches</a></li><li class="navtree"><a class="navtree" href="/oneshot-modding-guide/quality_of_life/supplementary_scripts/calling_events.html" nav-title="Calling Events">Calling Events</a></li></ul></li><li class="navtree"><a class="navtree" href="/oneshot-modding-guide/quality_of_life/editor_version.html" nav-title="Editor Version">Editor Version</a></li></ul></li><li class="navtree"><a class="navtree" href="/oneshot-modding-guide/distribution.html" nav-title="Distribution">Distribution</a></li><li class="navtree parent"><span class="navtree" nav-title="Resources">Resources</span><ul class="navtree"><li class="navtree"><a class="navtree" href="/oneshot-modding-guide/resources/dialogue_transcript.html" nav-title="Dialogue Transcript">Dialogue Transcript</a></li><li class="navtree"><a class="navtree" href="/oneshot-modding-guide/resources/fonts.html" nav-title="Fonts">Fonts</a></li><li class="navtree"><a class="navtree" href="/oneshot-modding-guide/resources/rmxp_extractor.html" nav-title="RMXP Extractor">RMXP Extractor</a></li></ul></li></ul></aside>
+    <main id="page_content" class="content">
+        <h1 id="page_title">Tileset Layout</h1>
+    <p>Tilesets are an atlas of tiles placed down on the map.
 Split into 8 columns of 32x32 pixel tiles.
-<img role="img" aria-label="tileset_layout_1.png" src="data:image/png;base64,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" class="wikilink" alt="tileset_layout_1.png"></p>
+[[tileset_layout_1.png]]</p>
 <p>There’s technically a limit to how many rows you can have, but you’re unlikely to hit it.
 For reference, Fading Memory has a tileset with 332 rows, which seems fine so far.</p>
 </main>
-	</div>
+</div>
 
 
 </body></html>
