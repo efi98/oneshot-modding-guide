@@ -2,6 +2,7 @@
     <meta charset="utf-8">
 
     <title>Common Text</title>
+    <link rel="icon" type="image/png" href="favicon.ico">
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/styles/base16/atelier-sulphurpool.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/highlight.min.js"></script>
@@ -334,7 +335,7 @@ function hideSidebar() {
 window.onload = () => {
     hljs.highlightAll();
     const theme = loadTheme();
-    toggleTheme(theme);
+    toggleTheme(theme || 'dark');
 }</script>
 </head>
 
