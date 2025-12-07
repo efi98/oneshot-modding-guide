@@ -25,11 +25,11 @@ See the examples section at the end of this document.
 2) Open a terminal/console, and execute `gem install rmxp_extractor`
 3) Go to your OneShot directory
 4) Create a file named `extract.bat`, and add this line to it:
-```batch
+```powershell
 rmxp_extractor export json scripts
 ```
 5) Create a file named `import.bat`, and add this line to it:
-```batch
+```powershell
 rmxp_extractor import json scripts
 ```
 

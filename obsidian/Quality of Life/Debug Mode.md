@@ -22,12 +22,12 @@ The overall usefulness besides quick access to the debug room is up to you.
 To set it up, create a file named `start_debug.bat` in the game's folder, and write one of the following lines into it, depending on the version:
 
 Steam version:
-```batch
+```powershell
 steamshim.exe --debugMode=true
 ```
 
 itch.io version:
-```batch
+```powershell
 oneshot.exe --debugMode=true
 ```
 
