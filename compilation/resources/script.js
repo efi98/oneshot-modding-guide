@@ -1,7 +1,7 @@
 function copyCodeBlock(caller) {
     const content = caller.target.parentNode.querySelector("code").innerText.replace(/\u00a0/g, " ");
-    navigator.clipboard.writeText(content).then(r => {
-        console.log('Copied!', r);
+    navigator.clipboard.writeText(content).then(() => {
+        console.log('Copied!');
     })
 }
 

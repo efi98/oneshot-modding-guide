@@ -12,7 +12,7 @@ import * as cheerio from 'cheerio';
 const element = (html) => cheerio.load(html, {}, false)("*")
 
 const IGNORED_DIRS = [".obsidian", "Assets"]
-const CODE_COPY_BUTTON_HTML = element("<button class='copy-code-button' onclick='copyCodeBlock(event)'>copy</button>")
+const CODE_COPY_BUTTON_HTML = element("<button class='copy-code-button' onclick='copyCodeBlock(event)'>Copy</button>")
 
 const resourceDir = `${import.meta.dirname}/resources`
 
@@ -33,7 +33,7 @@ if (localbackLinks) {
     backlinkPrefix = `file://${outputDir}`
 } else {
     backlinkPrefix = backlinkPrefixArg.replace("--backlinkprefix=", "")
-    if (backlinkPrefix.length == 0)
+    if (backlinkPrefix.length === 0)
         throw "Invalid argument: --backlinkPrefixArg=<prefix>"
 
     backlinkPrefix = `/${backlinkPrefix}`
@@ -48,7 +48,7 @@ function gather(directory) {
                 res.dirs[e.name] = e
         }
         else {
-            if (e.name == "sortspec.md")
+            if (e.name === "sortspec.md")
                 res.sortSpec = processSortspecEntry(path.resolve(e.path, e.name))
             else
                 res.files[e.name.replace(/\.md$/, '')] = e
@@ -130,7 +130,7 @@ function processSortspecEntry(filePath) {
         .split('\n')
 
     const sortspecIndex = content.indexOf("sortspec")
-    if (sortspecIndex != -1)
+    if (sortspecIndex !== -1)
         content.splice(sortspecIndex, 1)
 
     return content
@@ -154,7 +154,7 @@ function outputNodes(nodes, dir) {
 
 function buildNavigationTree(nodes, relativePath) {
     nodes = nodes.filter(n => n.content || (n.children && n.children.length > 0))
-    if (nodes.length == 0)
+    if (nodes.length === 0)
         return null
 
     const ul = element('<ul class="navtree"></ul>')
