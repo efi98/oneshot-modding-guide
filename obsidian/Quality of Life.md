@@ -1,1 +1,0 @@
-There are a lot of minor, yet annoying things to deal with while modding OneShot, but many can be avoided with some tricks.

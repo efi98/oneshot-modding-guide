@@ -29,5 +29,5 @@ The guide assumes you can see file extensions, like the `.exe` in `oneshot.exe`.
 Look up how to enable them if they're not visible.
 
 
-## Credits:
+## Credits
 Written and maintained by zimberzimber
