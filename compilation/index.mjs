@@ -152,7 +152,7 @@ function outputNodes(nodes, dir) {
     }
 }
 
-function buildNavigationHierarchy(nodes, relativePath) {
+function buildNavigationTree(nodes, relativePath) {
     nodes = nodes.filter(n => n.content || (n.children && n.children.length > 0))
     if (nodes.length == 0)
         return null
@@ -175,7 +175,7 @@ function buildNavigationHierarchy(nodes, relativePath) {
         li.append(label)
 
         if (node.children) {
-            const children = buildNavigationHierarchy(node.children, `${relativePath}/${node.path_part}`)
+            const children = buildNavigationTree(node.children, `${relativePath}/${node.path_part}`)
             if (children) {
                 li.append(children)
                 li.addClass("parent")
@@ -189,16 +189,14 @@ function buildNavigationHierarchy(nodes, relativePath) {
 }
 
 function buildHtmlTemplate(nodes) {
-    const navHierarchy = buildNavigationHierarchy(nodes, backlinkPrefix)
-
     const template = cheerio.load(fs.readFileSync(resourceDir + "/template.html", "utf8"))
     template("#custom_script").text(fs.readFileSync(resourceDir + "/script.js", "utf8"))
     template("#custom_style").text(fs.readFileSync(resourceDir + "/style.css", "utf8"))
-    template("#navigation_tree").append(navHierarchy)
+    template("#navigation_tree").append(buildNavigationTree(nodes, backlinkPrefix))
     return template
 }
 
-function processToPages(nodes, htmlTemplate) {
+function processToPages(nodes, htmlTemplate, wikilinkDictinary) {
     for (const node of nodes) {
         if (node.content) {
             const html = cheerio.load(htmlTemplate.html())
@@ -207,17 +205,44 @@ function processToPages(nodes, htmlTemplate) {
             html(`a.navtree[nav-title='${node.title.replaceAll(/'/g, "\\'")}']`).attr("selected", true)
             html(`#page_content`).append(node.content)
             html("pre").prepend(CODE_COPY_BUTTON_HTML)
+            
+            for (let e of html("a.wikilink")) {
+                e = html(e)
+                const title = e.text()
+                const href = wikilinkDictinary[title]
+                if (!href)
+                    throw new Error(`Href not found for wikilink title: ${title}`)
+
+                e.attr("href", href)
+            }
+
             node.content = html.html()
         }
 
         if (node.children)
-            processToPages(node.children, htmlTemplate)
+            processToPages(node.children, htmlTemplate, wikilinkDictinary)
+    }
+}
+
+function buildWikilinkDictionary(nodes, relativePath, dictionary) {
+    for (const node of nodes) {
+        if (node.content) {
+            if (dictionary[node.title])
+                throw new Error(`Link with title '${node.title}' already registered.`)
+
+            dictionary[node.title] = `${relativePath}/${node.path_part}.html`
+        }
+
+        if (node.children)
+            buildWikilinkDictionary(node.children, `${relativePath}/${node.path_part}`, dictionary)
     }
 }
 
 const contentNodes = gather(vaultDir)
+const wikilinkDictinary = {}
+buildWikilinkDictionary(contentNodes, backlinkPrefix, wikilinkDictinary)
 const htmlTemplate = buildHtmlTemplate(contentNodes)
-processToPages(contentNodes, htmlTemplate)
+processToPages(contentNodes, htmlTemplate, wikilinkDictinary)
 
 if (!dryRun)
     outputNodes(contentNodes, outputDir)
