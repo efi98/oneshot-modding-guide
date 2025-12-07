@@ -17,6 +17,7 @@
     --color-content-bg: #3A1C63;
     --color-hover-link: color-mix(in srgb, var(--color-link) 40%, white);
     --color-hover-link-bg: rgba(255, 255, 255, 0.12);
+    --side-box-shadow: 0 0 50px 5px rgb(0 0 0 / 30%);
 
     /* Fonts */
     --font-body: Calibri, serif;
@@ -45,6 +46,7 @@
     --color-content-bg: #F8F6FF;
     --color-hover-link: color-mix(in srgb, var(--color-link) 40%, #3a1c63);
     --color-hover-link-bg: rgb(126 121 0 / 12%);
+    --side-box-shadow: 0 0 18px 4px rgb(213 193 233 / 75%);
 }
 
 /*@font-face {*/
@@ -139,7 +141,7 @@ code {
 }
 
 .copy-code-block-button {
-  display: block;
+    display: block;
 }
 
 
@@ -163,6 +165,13 @@ video {
     background: var(--color-side-bg);
     overflow-y: auto;
     direction: rtl;
+    z-index: 1;
+    box-shadow: var(--side-box-shadow);
+}
+
+.side.active {
+    transform: translateX(0);
+    box-shadow: 0 0 50px 5px rgb(0 0 0 / 30%);
 }
 
 .side * {
@@ -226,11 +235,8 @@ ul.navtree li a.navtree[selected="true"] {
     /*border-left: 2px solid var(--color-link-active);*/
 }
 
-#theme-toggle {
+.btn-primary {
     position: absolute;
-    top: 1rem;
-    right: 1rem;
-    z-index: 10;
     background: var(--color-side-bg);
     color: var(--color-link);
     border: none;
@@ -241,32 +247,103 @@ ul.navtree li a.navtree[selected="true"] {
     cursor: pointer;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
     transition: background 0.2s, color 0.2s;
-}</style>
-    <script id="custom_script">
-function copyCodeBlock(caller) {
-	const content = caller.target.parentNode.querySelector("code").innerText.replace(/\u00a0/g, " ");
-	navigator.clipboard.writeText(content)
+}
+
+#theme-toggle {
+    top: 1rem;
+    right: 1rem;
+}
+
+#hamburger-menu {
+    display: none;
+    top: 1rem;
+    left: 1rem;
+}
+
+#side-backdrop {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.2);
+}
+
+/*responsive settings*/
+@media (max-width: 600px) {
+    .side {
+        min-width: var(--side-min-width);
+        max-width: 80vw;
+        transition: transform 0.3s cubic-bezier(.4, 0, .2, 1), box-shadow 0.3s;
+        transform: translateX(-100%);
+        position: fixed;
+        left: 0;
+        top: 0;
+        height: 100%;
+    }
+
+    #hamburger-menu {
+        display: block;
+    }
+}
+</style>
+    <script id="custom_script">function copyCodeBlock(caller) {
+    const content = caller.target.parentNode.querySelector("code").innerText.replace(/\u00a0/g, " ");
+    navigator.clipboard.writeText(content).then(r => {
+        console.log('Copied!', r);
+    })
+}
+
+function toggleTheme(theme = null) {
+    if (theme !== 'dark') {
+        document.body.classList.toggle('light');
+    }
+    const icon = document.getElementById('theme-icon');
+    if (document.body.classList.contains('light')) {
+        setTheme('light');
+        icon.textContent = '☀️';
+    } else {
+        setTheme('dark');
+        icon.textContent = '🌙';
+    }
+}
+
+function loadTheme() {
+    let theme = localStorage.getItem('theme');
+    return theme ?? '';
+}
+
+function setTheme(theme) {
+    localStorage.setItem('theme', theme);
+}
+
+function showSidebar() {
+    const side = document.getElementsByTagName('aside')[0];
+    const backdrop = document.getElementById('side-backdrop');
+    side.classList.add('active');
+    side.style.display = 'block';
+    backdrop.style.display = 'block';
+}
+
+function hideSidebar() {
+    const side = document.getElementsByTagName('aside')[0];
+    const backdrop = document.getElementById('side-backdrop');
+    side.classList.remove('active');
+    side.style.display = '';
+    backdrop.style.display = 'none';
 }
 
 window.onload = () => {
-	hljs.highlightAll()
-}
-
-function toggleTheme() {
-    document.body.classList.toggle('light');
-    const icon = document.getElementById('theme-icon');
-    if (document.body.classList.contains('light')) {
-        icon.textContent = '☀️';
-    } else {
-        icon.textContent = '🌙';
-    }
+    hljs.highlightAll();
+    const theme = loadTheme();
+    toggleTheme(theme);
 }</script>
 </head>
 
 <body>
-<button id="theme-toggle" onclick="toggleTheme()">
+<button id="theme-toggle" class="btn-primary" onclick="toggleTheme()">
     <span id="theme-icon">🌙</span>
 </button>
+<button id="hamburger-menu" class="btn-primary" onclick="showSidebar()">☰</button>
+<div id="side-backdrop" onclick="hideSidebar()"></div>
 <div class="layout">
     <aside id="navigation_tree" class="side"><ul class="navtree"><li class="navtree"><a class="navtree" href="/oneshot-modding-guide/index.html" nav-title="Index">Index</a></li><li class="navtree"><a class="navtree" href="/oneshot-modding-guide/for_players.html" nav-title="For Players">For Players</a></li><li class="navtree"><a class="navtree" href="/oneshot-modding-guide/things_to_consider.html" nav-title="Things to Consider">Things to Consider</a></li><li class="navtree parent"><a class="navtree" href="/oneshot-modding-guide/layers.html" nav-title="Layers">Layers</a><ul class="navtree"><li class="navtree"><a class="navtree" href="/oneshot-modding-guide/layers/translation.html" nav-title="Translation">Translation</a></li><li class="navtree parent"><a class="navtree" href="/oneshot-modding-guide/layers/asset_layer.html" nav-title="Asset Layer">Asset Layer</a><ul class="navtree"><li class="navtree"><a class="navtree" href="/oneshot-modding-guide/layers/asset_layer/character_sprite_layout.html" nav-title="Character Sprite Layout">Character Sprite Layout</a></li><li class="navtree"><a class="navtree" href="/oneshot-modding-guide/layers/asset_layer/light_maps.html" nav-title="Light Maps">Light Maps</a></li><li class="navtree"><a class="navtree" href="/oneshot-modding-guide/layers/asset_layer/tileset_layout.html" nav-title="Tileset Layout">Tileset Layout</a></li><li class="navtree"><a class="navtree" href="/oneshot-modding-guide/layers/asset_layer/visual_style_guide.html" nav-title="Visual Style Guide">Visual Style Guide</a></li></ul></li><li class="navtree parent"><a class="navtree" href="/oneshot-modding-guide/layers/editor_layer.html" nav-title="Editor Layer">Editor Layer</a><ul class="navtree"><li class="navtree"><a class="navtree" href="/oneshot-modding-guide/layers/editor_layer/common_text.html" nav-title="Common Text">Common Text</a></li><li class="navtree"><a class="navtree" href="/oneshot-modding-guide/layers/editor_layer/init_events.html" nav-title="Init Events">Init Events</a></li><li class="navtree"><a class="navtree" href="/oneshot-modding-guide/layers/editor_layer/wide_map_transfers.html" nav-title="Wide Map Transfers">Wide Map Transfers</a></li><li class="navtree"><a class="navtree" href="/oneshot-modding-guide/layers/editor_layer/item_combinations.html" nav-title="Item Combinations">Item Combinations</a></li><li class="navtree"><a class="navtree" href="/oneshot-modding-guide/layers/editor_layer/fast_travel.html" nav-title="Fast Travel">Fast Travel</a></li><li class="navtree"><a class="navtree" href="/oneshot-modding-guide/layers/editor_layer/footstep_sfx.html" nav-title="Footstep SFX">Footstep SFX</a></li></ul></li><li class="navtree parent"><a class="navtree" href="/oneshot-modding-guide/layers/script_layer.html" nav-title="Script Layer">Script Layer</a><ul class="navtree"><li class="navtree"><a class="navtree" href="/oneshot-modding-guide/layers/script_layer/modifying_scripts.html" nav-title="Modifying Scripts">Modifying Scripts</a></li></ul></li><li class="navtree parent"><a class="navtree" href="/oneshot-modding-guide/layers/engine_layer.html" nav-title="Engine Layer" selected="true">Engine Layer</a><ul class="navtree"><li class="navtree"><a class="navtree" href="/oneshot-modding-guide/layers/engine_layer/using_a_different_engine.html" nav-title="Using a Different Engine">Using a Different Engine</a></li></ul></li></ul></li><li class="navtree"><a class="navtree" href="/oneshot-modding-guide/journal_app.html" nav-title="Journal App">Journal App</a></li><li class="navtree"><a class="navtree" href="/oneshot-modding-guide/save_directory.html" nav-title="Save Directory">Save Directory</a></li><li class="navtree"><a class="navtree" href="/oneshot-modding-guide/collaboration_&amp;_version_control.html" nav-title="Collaboration &amp; Version Control">Collaboration &amp; Version Control</a></li><li class="navtree parent"><a class="navtree" href="/oneshot-modding-guide/quality_of_life.html" nav-title="Quality of Life">Quality of Life</a><ul class="navtree"><li class="navtree"><a class="navtree" href="/oneshot-modding-guide/quality_of_life/frozen_editor_during_playtesting.html" nav-title="Frozen Editor During Playtesting">Frozen Editor During Playtesting</a></li><li class="navtree"><a class="navtree" href="/oneshot-modding-guide/quality_of_life/closing_the_game.html" nav-title="Closing the Game">Closing the Game</a></li><li class="navtree"><a class="navtree" href="/oneshot-modding-guide/quality_of_life/debug_mode.html" nav-title="Debug Mode">Debug Mode</a></li><li class="navtree parent"><a class="navtree" href="/oneshot-modding-guide/quality_of_life/supplementary_scripts.html" nav-title="Supplementary Scripts">Supplementary Scripts</a><ul class="navtree"><li class="navtree"><a class="navtree" href="/oneshot-modding-guide/quality_of_life/supplementary_scripts/easier_debug.html" nav-title="Easier Debug">Easier Debug</a></li><li class="navtree"><a class="navtree" href="/oneshot-modding-guide/quality_of_life/supplementary_scripts/live_map_modification.html" nav-title="Live Map Modification">Live Map Modification</a></li><li class="navtree"><a class="navtree" href="/oneshot-modding-guide/quality_of_life/supplementary_scripts/noclip.html" nav-title="Noclip">Noclip</a></li><li class="navtree"><a class="navtree" href="/oneshot-modding-guide/quality_of_life/supplementary_scripts/seeing_collisions.html" nav-title="Seeing Collisions">Seeing Collisions</a></li><li class="navtree"><a class="navtree" href="/oneshot-modding-guide/quality_of_life/supplementary_scripts/event_labels.html" nav-title="Event Labels">Event Labels</a></li><li class="navtree"><a class="navtree" href="/oneshot-modding-guide/quality_of_life/supplementary_scripts/other_event's_self_switches.html" nav-title="Other Event's Self Switches">Other Event's Self Switches</a></li><li class="navtree"><a class="navtree" href="/oneshot-modding-guide/quality_of_life/supplementary_scripts/calling_events.html" nav-title="Calling Events">Calling Events</a></li></ul></li><li class="navtree"><a class="navtree" href="/oneshot-modding-guide/quality_of_life/editor_version.html" nav-title="Editor Version">Editor Version</a></li></ul></li><li class="navtree"><a class="navtree" href="/oneshot-modding-guide/distribution.html" nav-title="Distribution">Distribution</a></li><li class="navtree parent"><span class="navtree" nav-title="Resources">Resources</span><ul class="navtree"><li class="navtree"><a class="navtree" href="/oneshot-modding-guide/resources/dialogue_transcript.html" nav-title="Dialogue Transcript">Dialogue Transcript</a></li><li class="navtree"><a class="navtree" href="/oneshot-modding-guide/resources/fonts.html" nav-title="Fonts">Fonts</a></li><li class="navtree"><a class="navtree" href="/oneshot-modding-guide/resources/rmxp_extractor.html" nav-title="RMXP Extractor">RMXP Extractor</a></li></ul></li></ul></aside>
     <main id="page_content" class="content">
