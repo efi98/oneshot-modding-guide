@@ -15,9 +15,11 @@
 </head>
 
 <body>
-<button id="theme-toggle" onclick="toggleTheme()">
+<button id="theme-toggle" class="btn-primary" onclick="toggleTheme()">
     <span id="theme-icon">🌙</span>
 </button>
+<button id="hamburger-menu" class="btn-primary" onclick="showSidebar()">&#9776;</button>
+<div id="side-backdrop" onclick="hideSidebar()"></div>
 <div class="layout">
     <aside id="navigation_tree" class="side"></aside>
     <main id="page_content" class="content">

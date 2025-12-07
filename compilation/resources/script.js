@@ -1,6 +1,8 @@
 function copyCodeBlock(caller) {
     const content = caller.target.parentNode.querySelector("code").innerText.replace(/\u00a0/g, " ");
-    navigator.clipboard.writeText(content)
+    navigator.clipboard.writeText(content).then(r => {
+        console.log('Copied!', r);
+    })
 }
 
 function toggleTheme(theme = null) {
@@ -24,6 +26,22 @@ function loadTheme() {
 
 function setTheme(theme) {
     localStorage.setItem('theme', theme);
+}
+
+function showSidebar() {
+    const side = document.getElementsByTagName('aside')[0];
+    const backdrop = document.getElementById('side-backdrop');
+    side.classList.add('active');
+    side.style.display = 'block';
+    backdrop.style.display = 'block';
+}
+
+function hideSidebar() {
+    const side = document.getElementsByTagName('aside')[0];
+    const backdrop = document.getElementById('side-backdrop');
+    side.classList.remove('active');
+    side.style.display = '';
+    backdrop.style.display = 'none';
 }
 
 window.onload = () => {
