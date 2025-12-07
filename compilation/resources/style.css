@@ -39,10 +39,10 @@
     --color-hover-link-bg: rgb(126 121 0 / 12%);
 }
 
-@font-face {
-    font-family: 'Terminus TTF';
-    src: url('TerminusTTF.ttf') format('truetype');
-}
+/*@font-face {*/
+/*    font-family: 'Terminus TTF';*/
+/*    src: url('TerminusTTF.ttf') format('truetype');*/
+/*}*/
 
 ::-webkit-scrollbar {
     width: 8px;
