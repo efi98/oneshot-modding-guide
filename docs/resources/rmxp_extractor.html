@@ -135,6 +135,25 @@ a:active {
     color: var(--color-link);
 }
 
+pre {
+    position: relative;
+}
+
+.copy-code-button {
+    position: absolute;
+    top: 0.5rem;
+    right: 0.5rem;
+    padding: 2px 8px;
+    font-size: 0.8em;
+    cursor: pointer;
+    z-index: 1;
+    background: var(--color-content-bg);
+    outline: none;
+    border: 1px solid var(--color-link);
+    color: var(--color-link);
+    border-radius: 3px;
+}
+
 code {
     background: var(--color-code-bg);
     padding: 0 4px;
@@ -288,8 +307,8 @@ ul.navtree li a.navtree[selected="true"] {
 </style>
     <script id="custom_script">function copyCodeBlock(caller) {
     const content = caller.target.parentNode.querySelector("code").innerText.replace(/\u00a0/g, " ");
-    navigator.clipboard.writeText(content).then(r => {
-        console.log('Copied!', r);
+    navigator.clipboard.writeText(content).then(() => {
+        console.log('Copied!');
     })
 }
 
@@ -374,11 +393,11 @@ See the examples section at the end of this document.</p>
 <li>Go to your OneShot directory</li>
 <li>Create a file named <code>extract.bat</code>, and add this line to it:</li>
 </ol>
-<pre class="powershell"><button class="copy-code-button" onclick="copyCodeBlock(event)">copy</button><code>rmxp_extractor export json scripts</code></pre>
+<pre class="powershell"><button class="copy-code-button" onclick="copyCodeBlock(event)">Copy</button><code>rmxp_extractor export json scripts</code></pre>
 <ol start="5" type="1">
 <li>Create a file named <code>import.bat</code>, and add this line to it:</li>
 </ol>
-<pre class="powershell"><button class="copy-code-button" onclick="copyCodeBlock(event)">copy</button><code>rmxp_extractor import json scripts</code></pre>
+<pre class="powershell"><button class="copy-code-button" onclick="copyCodeBlock(event)">Copy</button><code>rmxp_extractor import json scripts</code></pre>
 <p>You only need to repeat <code>1)</code> and <code>2)</code> once per system, the rest are to be repeated per project.</p>
 <hr>
 <h2 id="exporting">Exporting</h2>

@@ -135,6 +135,25 @@ a:active {
     color: var(--color-link);
 }
 
+pre {
+    position: relative;
+}
+
+.copy-code-button {
+    position: absolute;
+    top: 0.5rem;
+    right: 0.5rem;
+    padding: 2px 8px;
+    font-size: 0.8em;
+    cursor: pointer;
+    z-index: 1;
+    background: var(--color-content-bg);
+    outline: none;
+    border: 1px solid var(--color-link);
+    color: var(--color-link);
+    border-radius: 3px;
+}
+
 code {
     background: var(--color-code-bg);
     padding: 0 4px;
@@ -288,8 +307,8 @@ ul.navtree li a.navtree[selected="true"] {
 </style>
     <script id="custom_script">function copyCodeBlock(caller) {
     const content = caller.target.parentNode.querySelector("code").innerText.replace(/\u00a0/g, " ");
-    navigator.clipboard.writeText(content).then(r => {
-        console.log('Copied!', r);
+    navigator.clipboard.writeText(content).then(() => {
+        console.log('Copied!');
     })
 }
 
@@ -361,7 +380,7 @@ If you think your mod doesn’t need this, then ignore this page at your own ris
 Should look like this if you’re doing it through the editor:
 [[save_directory_1.png]]</p>
 <p>Copy this code into it:</p>
-<pre class="ruby"><button class="copy-code-button" onclick="copyCodeBlock(event)">copy</button><code># Set your mod's internal name here.
+<pre class="ruby"><button class="copy-code-button" onclick="copyCodeBlock(event)">Copy</button><code># Set your mod's internal name here.
 # Used primarily to set the save directory for your mod.
 MOD_NAME = "CHANGE_ME"
 

@@ -135,6 +135,25 @@ a:active {
     color: var(--color-link);
 }
 
+pre {
+    position: relative;
+}
+
+.copy-code-button {
+    position: absolute;
+    top: 0.5rem;
+    right: 0.5rem;
+    padding: 2px 8px;
+    font-size: 0.8em;
+    cursor: pointer;
+    z-index: 1;
+    background: var(--color-content-bg);
+    outline: none;
+    border: 1px solid var(--color-link);
+    color: var(--color-link);
+    border-radius: 3px;
+}
+
 code {
     background: var(--color-code-bg);
     padding: 0 4px;
@@ -288,8 +307,8 @@ ul.navtree li a.navtree[selected="true"] {
 </style>
     <script id="custom_script">function copyCodeBlock(caller) {
     const content = caller.target.parentNode.querySelector("code").innerText.replace(/\u00a0/g, " ");
-    navigator.clipboard.writeText(content).then(r => {
-        console.log('Copied!', r);
+    navigator.clipboard.writeText(content).then(() => {
+        console.log('Copied!');
     })
 }
 
@@ -356,7 +375,7 @@ The game itself has no concept of “indoors” or “outdoors”, it’s simply
 See <a href="Init Events" title="wikilink">Init Events</a> for more information.</p>
 <h2 id="fast-travel-destinations">Fast Travel Destinations</h2>
 <p>To create a destination, you simply add an event called <code>FAST TRAVEL</code> to the map, calling a script:</p>
-<pre class="ruby"><button class="copy-code-button" onclick="copyCodeBlock(event)">copy</button><code>unlock_map :ZONE, :IDENTIFIABLE_NAME, :FACING_DIRECTION</code></pre>
+<pre class="ruby"><button class="copy-code-button" onclick="copyCodeBlock(event)">Copy</button><code>unlock_map :ZONE, :IDENTIFIABLE_NAME, :FACING_DIRECTION</code></pre>
 <p>For example, traveling to the first Barrens map looks like so:
 [[fast_travel_1.png]]</p>
 <p>Fast traveling to this destination will then place the player where the event is.</p>
@@ -364,7 +383,7 @@ See <a href="Init Events" title="wikilink">Init Events</a> for more information.
 <h2 id="presentation">Presentation</h2>
 <p>Now you must define the name of the zone, and the name of the destination, which is done in the <code>Data_FastTravel</code> script.
 A short excerpt from the script:</p>
-<pre class="ruby"><button class="copy-code-button" onclick="copyCodeBlock(event)">copy</button><code>ZONES = {
+<pre class="ruby"><button class="copy-code-button" onclick="copyCodeBlock(event)">Copy</button><code>ZONES = {
 &nbsp; :blue =&gt; Zone.new(tr("The Barrens"), {
 &nbsp; &nbsp; :entrance =&gt; tr("entrance"),
 &nbsp; &nbsp; :outpost =&gt; tr("outpost"),
