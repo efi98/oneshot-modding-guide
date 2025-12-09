@@ -36,16 +36,7 @@ jobs:
       - name: Upload docs artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: docs
-
-      - name: Commit and push updated docs
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add docs
-          git commit -m "Update docs [skip ci]"
-          git push origin main
-        
+          path: docs        
 
   deploy:
     needs: build-docs
