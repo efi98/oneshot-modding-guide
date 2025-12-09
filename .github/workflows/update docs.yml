@@ -35,8 +35,9 @@ jobs:
 
       - name: Upload docs artifact
         uses: actions/upload-pages-artifact@v3
+        working-directory: compilation
         with:
-          path: docs        
+          path: dist
 
   deploy:
     needs: build-docs
