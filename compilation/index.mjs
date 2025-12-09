@@ -105,7 +105,7 @@ function getContent(path) {
         `--resource-path=${assetsDir}`,
         "--embed-resources",
         "--wrap=preserve",
-        "--no-highlight"
+        "--syntax-highlighting=none"
     ];
 
     const proc = spawnSync("pandoc", args, {
