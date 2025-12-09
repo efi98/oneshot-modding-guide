@@ -18,6 +18,7 @@ const resourceDir = `${import.meta.dirname}/resources`
 
 const rootDir = path.join(import.meta.dirname, '..')
 const vaultDir = `${rootDir}/obsidian`
+const assetsDir = `${vaultDir}/Assets`
 const outputDir = `${rootDir}/docs`
 
 const skipContent = process.argv.includes("--skipcontent")
@@ -39,7 +40,6 @@ if (localbackLinks) {
     backlinkPrefix = `/${backlinkPrefix}`
 }
 
-const assetsDir = `${vaultDir}/Assets`
 
 function gather(directory) {
     const collection = fs.readdirSync(directory, { withFileTypes: true }).reduce((res, e) => {
@@ -49,7 +49,7 @@ function gather(directory) {
         }
         else {
             if (e.name === "sortspec.md")
-                res.sortSpec = processSortspecEntry(path.resolve(e.path, e.name))
+                res.sortSpec = processSortspecEntry(path.resolve(e.parentPath, e.name))
             else
                 res.files[e.name.replace(/\.md$/, '')] = e
         }
@@ -78,10 +78,10 @@ function buildNode(title, fileEntity, dirEntity) {
     }
 
     if (fileEntity)
-        node.content = getContent(path.resolve(fileEntity.path, fileEntity.name))
+        node.content = getContent(path.resolve(fileEntity.parentPath, fileEntity.name))
 
     if (dirEntity)
-        node.children = gather(path.resolve(dirEntity.path, dirEntity.name))
+        node.children = gather(path.resolve(dirEntity.parentPath, dirEntity.name))
 
     return node
 }
