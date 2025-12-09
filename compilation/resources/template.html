@@ -1,25 +1,32 @@
 <!doctype html>
-<html>
+<html lang="en">
 
 <head>
-	<meta charset="utf-8">
+    <meta charset="utf-8">
 
-	<title></title>
+    <title></title>
+    <link rel="icon" type="image/png" href="favicon.ico">
 
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/styles/base16/atelier-sulphurpool.min.css">
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/highlight.min.js"></script>
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/styles/base16/atelier-sulphurpool.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/highlight.min.js"></script>
 
-	<style id="custom_style"></style>
-	<script id="custom_script"></script>
+    <style id="custom_style"></style>
+    <script id="custom_script"></script>
 </head>
 
 <body>
-	<div class="layout">
-		<aside id="navigation_tree" class="side"> </aside>
-		<main id="page_content" class="content">
-			<h1 id="page_title"></h1>
-		</main>
-	</div>
+<button id="theme-toggle" class="btn-primary" onclick="toggleTheme()">
+    <span id="theme-icon">🌙</span>
+</button>
+<button id="hamburger-menu" class="btn-primary" onclick="showSidebar()">&#9776;</button>
+<div id="side-backdrop" onclick="hideSidebar()"></div>
+<div class="layout">
+    <aside id="navigation_tree" class="side"></aside>
+    <main id="page_content" class="content">
+        <h1 id="page_title"></h1>
+    </main>
+</div>
 </body>
 
 </html>

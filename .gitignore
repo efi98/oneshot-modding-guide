@@ -3,3 +3,4 @@ Thumbs.db
 desktop.ini
 .obsidian/
 node_modules/
+/.idea/*
