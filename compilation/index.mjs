@@ -19,7 +19,10 @@ const resourceDir = `${import.meta.dirname}/resources`
 const rootDir = path.join(import.meta.dirname, '..')
 const vaultDir = `${rootDir}/obsidian`
 const assetsDir = `${vaultDir}/Assets`
-const outputDir = `${rootDir}/docs`
+
+const outputDir = path.resolve("./dist")
+if (!fs.existsSync(outputDir))
+  fs.mkdirSync(outputDir)
 
 const skipContent = process.argv.includes("--skipcontent")
 const dryRun = process.argv.includes("--dryrun")
