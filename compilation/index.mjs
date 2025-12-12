@@ -12,6 +12,7 @@ import * as cheerio from 'cheerio';
 const element = (html) => cheerio.load(html, {}, false)("*")
 
 const IGNORED_DIRS = [".obsidian", "Assets"]
+const IGNORED_FILES = [".gitignore"]
 const CODE_COPY_BUTTON_HTML = element("<button class='copy-code-button' onclick='copyCodeBlock(event)'>Copy</button>")
 
 const resourceDir = `${import.meta.dirname}/resources`
@@ -53,7 +54,7 @@ function gather(directory) {
         else {
             if (e.name === "sortspec.md")
                 res.sortSpec = processSortspecEntry(path.resolve(e.parentPath, e.name))
-            else
+            else if (!IGNORED_FILES.includes(e.name))
                 res.files[e.name.replace(/\.md$/, '')] = e
         }
 
