@@ -18,15 +18,16 @@ Delete the extracted JSON files first
 
 ## Cleanup
 Since you're distributing a mod, it is **your responsibility** to ensure it still requires owning the 2016 release of OneShot to play.
-You cannot distribute a copy of the game.
+You cannot distribute a working copy of the game.
 Because of that, you must clean the distribution to only include new and/or modified files.
 
-It may be impossible to keep track of changes/additions, so I've [written a tool](https://github.com/zimberzimber/oneshot-mod-util) that compares your project to a vanilla game, and does the heavy lifting for you.
-#TODO: Improve the tool's repository, see if it still works, state that the tool is not responsible 
+It may be impossible to keep track of changes/additions, so I've written a script to help with that.
+See [[Cleanup Script]].
 
-***Distributed files are your responsibility.***
-The tool only makes the job easier.
-And it's important you go over the files you intend to distribute to ensure there's nothing you wouldn't want to distribute, like that copyrighted music piece you've used as a placeholder during development.
+I will repeat myself: ***Distributed files are your responsibility.***
+Whatever tools/scripts/black magic you use to clean your distribution are only there to assist.
+
+And it is important you go over the files you intend to distribute to ensure there's nothing you wouldn't want to distribute, like that copyrighted music piece you've used as a placeholder during development.
 
 
 ## Test It
