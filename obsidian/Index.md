@@ -29,5 +29,10 @@ The guide assumes you can see file extensions, like the `.exe` in `oneshot.exe`.
 Look up how to enable them if they're not visible.
 
 
+## Source and Contribution
+The source for this guide is available [on GitHub](https://github.com/zimberzimber/oneshot-modding-guide/).
+If you'd like to contribute, feel free to make a pull request from your fork.
+
+
 ## Credits
 Written and maintained by zimberzimber
