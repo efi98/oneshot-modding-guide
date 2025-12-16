@@ -9,7 +9,7 @@
     --color-content-bg: #3A1C63;
     --color-hover-link: color-mix(in srgb, var(--color-link) 40%, white);
     --color-hover-link-bg: rgba(255, 255, 255, 0.12);
-    --side-box-shadow: 0 0 50px 5px rgb(0 0 0 / 30%);
+    --side-box-shadow: 0 0 20px 0px rgb(0 0 0 / 20%);
 
     /* Fonts */
     --font-body: Calibri, serif;
@@ -38,7 +38,7 @@
     --color-content-bg: #F8F6FF;
     --color-hover-link: color-mix(in srgb, var(--color-link) 40%, #3a1c63);
     --color-hover-link-bg: rgb(126 121 0 / 12%);
-    --side-box-shadow: 0 0 18px 4px rgb(213 193 233 / 75%);
+    --side-box-shadow: 0 0 5px 5px rgb(213 193 233 / 60%);
 }
 
 /*@font-face {*/
@@ -149,6 +149,7 @@ code {
     background: var(--color-code-bg);
     padding: 0 4px;
     margin: 0 -4px;
+    height: 20rem;
 }
 
 .copy-code-block-button {
