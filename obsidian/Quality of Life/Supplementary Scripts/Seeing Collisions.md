@@ -1,6 +1,6 @@
-Testing your maps to ensure there aren't any holes that shouldn't be there can be tedious, because the vanilla method is bumping into every wall and hoping it doesn't let you through.
-
-With this script, you can simply have the game draw impassable tiles with the click of a button:
+Probing walls for holes to find collision issues is very tedious.
+This script allows you to toggle an overlay indicating impassable tiles with a click of a button:
 ![[seeing_collisions_1.mp4]]
 
-It requires [[Debug Mode]], and can be toggled on/off with the `R` action, which is the `W` key by default.
+Requires [[Debug Mode]], toggled on/off with the `R` action, which is the `W` key by default.
+It doesn't match collisions in real time, only the collisions as they were when the overlay was turned on.

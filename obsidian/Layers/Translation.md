@@ -73,16 +73,7 @@ msgid "POT_VERSION"
 msgstr "1.0.0"
 ```
 
-- These characters are replaced in text with something else:
-`\n` - New line
-`\.` - Short pause
-`\|` - Long pause
-`\>` - Wait for input before continuing text
-`\p` - Player name
-`\@` - Change face sprite
-`\\` - Regular backslash
-`\v[NNN]` - Print number stored in variable - Replace NNN with variable ID
-
+- See [[Text Formatting]] on special text character.
 
 ## Images
 

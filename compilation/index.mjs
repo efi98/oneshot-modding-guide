@@ -12,13 +12,18 @@ import * as cheerio from 'cheerio';
 const element = (html) => cheerio.load(html, {}, false)("*")
 
 const IGNORED_DIRS = [".obsidian", "Assets"]
+const IGNORED_FILES = [".gitignore"]
 const CODE_COPY_BUTTON_HTML = element("<button class='copy-code-button' onclick='copyCodeBlock(event)'>Copy</button>")
 
 const resourceDir = `${import.meta.dirname}/resources`
 
 const rootDir = path.join(import.meta.dirname, '..')
 const vaultDir = `${rootDir}/obsidian`
-const outputDir = `${rootDir}/docs`
+const assetsDir = `${vaultDir}/Assets`
+
+const outputDir = path.resolve("./dist")
+if (!fs.existsSync(outputDir))
+  fs.mkdirSync(outputDir)
 
 const skipContent = process.argv.includes("--skipcontent")
 const dryRun = process.argv.includes("--dryrun")
@@ -39,7 +44,6 @@ if (localbackLinks) {
     backlinkPrefix = `/${backlinkPrefix}`
 }
 
-const assetsDir = `${vaultDir}/Assets`
 
 function gather(directory) {
     const collection = fs.readdirSync(directory, { withFileTypes: true }).reduce((res, e) => {
@@ -49,8 +53,8 @@ function gather(directory) {
         }
         else {
             if (e.name === "sortspec.md")
-                res.sortSpec = processSortspecEntry(path.resolve(e.path, e.name))
-            else
+                res.sortSpec = processSortspecEntry(path.resolve(e.parentPath, e.name))
+            else if (!IGNORED_FILES.includes(e.name))
                 res.files[e.name.replace(/\.md$/, '')] = e
         }
 
@@ -78,10 +82,10 @@ function buildNode(title, fileEntity, dirEntity) {
     }
 
     if (fileEntity)
-        node.content = getContent(path.resolve(fileEntity.path, fileEntity.name))
+        node.content = getContent(path.resolve(fileEntity.parentPath, fileEntity.name))
 
     if (dirEntity)
-        node.children = gather(path.resolve(dirEntity.path, dirEntity.name))
+        node.children = gather(path.resolve(dirEntity.parentPath, dirEntity.name))
 
     return node
 }
@@ -105,7 +109,7 @@ function getContent(path) {
         `--resource-path=${assetsDir}`,
         "--embed-resources",
         "--wrap=preserve",
-        "--no-highlight"
+        "--syntax-highlighting=none"
     ];
 
     const proc = spawnSync("pandoc", args, {

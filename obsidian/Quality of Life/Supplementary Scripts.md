@@ -16,6 +16,6 @@ Then copy the contents of this code block into it:
 ```embed-ruby
 {
 	"PATH": "vault://Assets/supplimentary_scripts.rb",
-	"TITLE": "Supplimentary_Scripts"
+	"TITLE": "Supplimentary Scripts"
 }
 ```
