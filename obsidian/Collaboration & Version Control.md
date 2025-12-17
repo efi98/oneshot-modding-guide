@@ -14,16 +14,16 @@ And once you've set up your repository, make sure to make it `private` do avoid 
 
 ---
 
-## Do solo developers need this?
+## "Do solo developers need this?"
 
-## I don't need all of this, they're only sending me assets to include in the mod
+## "I don't need all of this, they're only sending me assets to include in the mod"
 
 It still helps you keep track of changes, and allows you to maintain a backup in case something happens to your PC if you're using something like Github.
 
 
 ---
 
-## It's too complicated...
+## "It's too complicated..."
 
 Then don't use it.
 

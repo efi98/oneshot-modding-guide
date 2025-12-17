@@ -6,7 +6,6 @@ Despite that, what you learn here may serve you with other games as well.
 
 
 ## Lost or Uncertain?
-
 **Look for answers in vanilla first.**
 It's a very helpful reference for what you can do and how.
 This applies to any kind of modding, not just OneShot.
@@ -17,6 +16,10 @@ At worst, you'll be told that your problem is specific to OneShot, which will he
 
 And don't be shy to share you experience with others in need of help!
 Propagate your knowledge and offer guidance where you're able, so that everyone can have an easier time realizing their ideas, and expressing their love for this silly not-a-cat game!
+
+I also encourage you to use my other mods for reference.
+Metamorphosis and Frostide were somewhat made with that in mind.
+Fading Memory less so, and someone may not be too happy about you digging through it.
 
 
 ## Guide Assumptions
