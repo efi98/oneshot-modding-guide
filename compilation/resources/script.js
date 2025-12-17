@@ -46,39 +46,8 @@ function hideSidebar() {
     backdrop.style.display = 'none';
 }
 
-function handleNavAndScroll(targetSelector, url) {
-    localStorage.setItem(SIDEBAR_ELEMENT, targetSelector);
-    window.location.href = url;
-}
-
-function scrollSidebarTo(element) {
-    setTimeout(() => {
-        element.scrollIntoView({behavior: 'smooth', block: 'start'});
-    }, 300); // Adjust delay to match sidebar animation duration
-}
-
-function scrollSidebarElement() {
-    const scrollTarget = localStorage.getItem(SIDEBAR_ELEMENT);
-    if (scrollTarget) {
-        const targetElement = document.querySelector(scrollTarget);
-        if (targetElement) {
-            scrollSidebarTo(targetElement);
-        }
-        localStorage.removeItem(SIDEBAR_ELEMENT);
-    }
-}
-
-document.querySelectorAll('a.navtree').forEach(link => {
-    link.addEventListener('click', (e) => {
-        e.preventDefault();
-        const selector = `a.navtree[href="${link.getAttribute('href')}"]`;
-        handleNavAndScroll(selector, link.href);
-    });
-});
-
 window.onload = () => {
     hljs.highlightAll();
     const theme = loadTheme();
     toggleTheme(theme || 'dark');
-    scrollSidebarElement();
 }
