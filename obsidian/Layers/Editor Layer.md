@@ -28,5 +28,6 @@ Go to `Tools` > `Options`, and change it there.
 
 ## Notes
 Although not necessary, you might want to keep these in mind as well:
+- [[Generating Translation Files]]
 - [[Dialogue Transcript]]
 - [[RMXP Extractor]]
