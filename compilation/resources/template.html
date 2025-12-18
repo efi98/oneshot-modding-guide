@@ -5,20 +5,25 @@
     <meta charset="utf-8">
 
     <title></title>
-    <link rel="shortcut icon" type="image/x-icon" href="/oneshot-modding-guide/favicon.ico">
+    <link id="favicon" rel="shortcut icon" type="image/x-icon">
 
     <link rel="stylesheet"
           href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/styles/base16/atelier-sulphurpool.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/highlight.min.js"></script>
 
-    <style id="custom_style"></style>
+    <img class="hidden" id="icon-theme-dark"/>
+    <img class="hidden" id="icon-theme-light"/>
+    <img class="hidden" id="icon-theme-two"/>
+
     <script id="custom_script"></script>
+    <style id="custom_style"></style>
 </head>
 
 <body>
-<button id="theme-toggle" class="btn-primary" onclick="toggleTheme()">
-    <span id="theme-icon">🌙</span>
+<button id="theme-toggle" class="btn-primary" onclick="onThemeButtonClick()">
+    <img id="theme-icon"/>
 </button>
+
 <button id="hamburger-menu" class="btn-primary" onclick="showSidebar()">&#9776;</button>
 <div id="side-backdrop" onclick="hideSidebar()"></div>
 <div class="layout">

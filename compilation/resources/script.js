@@ -7,27 +7,31 @@ function copyCodeBlock(caller) {
     })
 }
 
-function toggleTheme(theme = null) {
-    if (theme !== 'dark') {
-        document.body.classList.toggle('light');
-    }
-    const icon = document.getElementById('theme-icon');
-    if (document.body.classList.contains('light')) {
-        setTheme('light');
-        icon.textContent = '☀️';
-    } else {
-        setTheme('dark');
-        icon.textContent = '🌙';
-    }
+function toggleTheme() {
+    getTheme() == 'dark' ? setTheme('light') : setTheme('dark')
 }
 
-function loadTheme() {
-    let theme = localStorage.getItem('theme');
-    return theme ?? '';
+function getTheme() {
+    return localStorage.getItem('theme') ?? 'dark';
 }
 
 function setTheme(theme) {
     localStorage.setItem('theme', theme);
+
+    let source_icon = null
+    if (theme == 'light') {
+        document.body.classList.add('light')
+        source_icon = document.getElementById('icon-theme-light')
+    } else {
+        document.body.classList.remove('light')
+        source_icon = document.getElementById('icon-theme-dark')
+    }
+
+    if (source_icon) {
+        const icon = document.getElementById('theme-icon')
+        if (icon)
+            icon.src = source_icon.src
+    }
 }
 
 function showSidebar() {
@@ -46,8 +50,18 @@ function hideSidebar() {
     backdrop.style.display = 'none';
 }
 
-window.onload = () => {
-    hljs.highlightAll();
-    const theme = loadTheme();
-    toggleTheme(theme || 'dark');
+function loadTheme() {
+    setTheme(getTheme())
 }
+
+function onThemeButtonClick() {
+    toggleTheme()
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    hljs.highlightAll();
+    loadTheme()
+})
+
+// Call immediately to prevent flashing
+loadTheme()

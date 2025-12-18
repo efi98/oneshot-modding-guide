@@ -16,6 +16,12 @@ const IGNORED_FILES = [".gitignore"]
 const CODE_COPY_BUTTON_HTML = element("<button class='copy-code-button' onclick='copyCodeBlock(event)'>Copy</button>")
 
 const resourceDir = `${import.meta.dirname}/resources`
+const RESOURCES_TO_COPY = [
+    "favicon.ico",
+    "icon_theme_dark.png",
+    "icon_theme_light.png",
+    "icon_theme_two.png",
+]
 
 const rootDir = path.join(import.meta.dirname, '..')
 const vaultDir = `${rootDir}/obsidian`
@@ -23,7 +29,7 @@ const assetsDir = `${vaultDir}/Assets`
 
 const outputDir = path.resolve("./dist")
 if (!fs.existsSync(outputDir))
-  fs.mkdirSync(outputDir)
+    fs.mkdirSync(outputDir)
 
 const skipContent = process.argv.includes("--skipcontent")
 const dryRun = process.argv.includes("--dryrun")
@@ -197,6 +203,12 @@ function buildHtmlTemplate(nodes) {
     template("#custom_script").text(fs.readFileSync(resourceDir + "/script.js", "utf8"))
     template("#custom_style").text(fs.readFileSync(resourceDir + "/style.css", "utf8"))
     template("#navigation_tree").append(buildNavigationTree(nodes, backlinkPrefix))
+
+    template("#favicon").attr("href", backlinkPrefix + "/favicon.ico")
+    template("#icon-theme-dark").attr("src", backlinkPrefix + "/icon_theme_dark.png")
+    template("#icon-theme-light").attr("src", backlinkPrefix + "/icon_theme_light.png")
+    template("#icon-theme-two").attr("src", backlinkPrefix + "/icon_theme_two.png")
+
     return template
 }
 
@@ -209,7 +221,7 @@ function processToPages(nodes, htmlTemplate, wikilinkDictinary) {
             html(`a.navtree[nav-title='${node.title.replaceAll(/'/g, "\\'")}']`).attr("selected", true)
             html(`#page_content`).append(node.content)
             html("pre").prepend(CODE_COPY_BUTTON_HTML)
-            
+
             for (let e of html("a.wikilink")) {
                 e = html(e)
                 const title = e.text()
@@ -248,5 +260,9 @@ buildWikilinkDictionary(contentNodes, backlinkPrefix, wikilinkDictinary)
 const htmlTemplate = buildHtmlTemplate(contentNodes)
 processToPages(contentNodes, htmlTemplate, wikilinkDictinary)
 
-if (!dryRun)
+if (!dryRun) {
     outputNodes(contentNodes, outputDir)
+
+    for (const resource of RESOURCES_TO_COPY)
+        fs.copyFileSync(`${resourceDir}/${resource}`, `${outputDir}/${resource}`)
+}
