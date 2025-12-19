@@ -22,6 +22,8 @@ const RESOURCES_TO_COPY = [
     "icon_theme_dark.png",
     "icon_theme_light.png",
     "icon_theme_two.png",
+    "script.js",
+    "style.css"
 ]
 
 const rootDir = path.join(import.meta.dirname, '..')
@@ -205,16 +207,32 @@ function buildNavigationTree(nodes, relativePath) {
 
 function buildHtmlTemplate(nodes) {
     const template = cheerio.load(fs.readFileSync(resourceDir + "/template.html", "utf8"))
-    template("#custom_script").text(fs.readFileSync(resourceDir + "/script.js", "utf8"))
-    template("#custom_style").text(fs.readFileSync(resourceDir + "/style.css", "utf8"))
     template("#navigation_tree").append(buildNavigationTree(nodes, backlinkPrefix))
 
-    template("#favicon").attr("href", backlinkPrefix + "/favicon.ico")
-    template("#icon-theme-dark").attr("src", backlinkPrefix + "/icon_theme_dark.png")
-    template("#icon-theme-light").attr("src", backlinkPrefix + "/icon_theme_light.png")
-    template("#icon-theme-two").attr("src", backlinkPrefix + "/icon_theme_two.png")
+    if (embedAssets) {
+        template("#custom_script").text(fs.readFileSync(resourceDir + "/script.js", "utf8"))
+        template("#custom_style").remove()
+        template("head").append(`<style id="custom_style">${fs.readFileSync(resourceDir + "/style.css", "utf8")}</style>`)
+
+        template("#favicon").attr("href", imageToBase64Source(resourceDir + "/favicon.ico"))
+        template("#icon-theme-dark").attr("src", imageToBase64Source(resourceDir + "/icon_theme_dark.png"))
+        template("#icon-theme-light").attr("src", imageToBase64Source(resourceDir + "/icon_theme_light.png"))
+        template("#icon-theme-two").attr("src", imageToBase64Source(resourceDir + "/icon_theme_two.png"))
+    } else {
+        template("#custom_script").attr("src", backlinkPrefix + "/script.js")
+        template("#custom_style").attr("href", backlinkPrefix + "/style.css")
+
+        template("#favicon").attr("href", backlinkPrefix + "/favicon.ico")
+        template("#icon-theme-dark").attr("src", backlinkPrefix + "/icon_theme_dark.png")
+        template("#icon-theme-light").attr("src", backlinkPrefix + "/icon_theme_light.png")
+        template("#icon-theme-two").attr("src", backlinkPrefix + "/icon_theme_two.png")
+    }
 
     return template
+}
+
+function imageToBase64Source(filePath) {
+    return "data:image/png;base64," + fs.readFileSync(filePath, { encoding: 'base64' })
 }
 
 function processToPages(nodes, htmlTemplate, wikilinkDictinary) {
@@ -276,9 +294,9 @@ processToPages(contentNodes, htmlTemplate, wikilinkDictinary)
 if (!dryRun) {
     outputNodes(contentNodes, outputDir)
 
-    for (const resource of RESOURCES_TO_COPY)
-        fs.copyFileSync(`${resourceDir}/${resource}`, `${outputDir}/${resource}`)
-
-    if (!embedAssets)
+    if (!embedAssets) {
+        for (const resource of RESOURCES_TO_COPY)
+            fs.copyFileSync(`${resourceDir}/${resource}`, `${outputDir}/${resource}`)
         fs.cpSync(assetsDir, `${outputDir}/_assets`, { recursive: true })
+    }
 }
