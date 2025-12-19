@@ -9,6 +9,7 @@
     --color-content-bg: #3A1C63;
     --color-hover-link: color-mix(in srgb, var(--color-link) 40%, white);
     --color-hover-link-bg: rgba(255, 255, 255, 0.12);
+    --color-quote-bg: color-mix(in srgb, var(--color-side-bg) 33%, transparent);
     --side-box-shadow: 0 0 20px 0px rgb(0 0 0 / 20%);
 
     /* Fonts */
@@ -38,6 +39,7 @@
     --color-content-bg: #F8F6FF;
     --color-hover-link: color-mix(in srgb, var(--color-link) 40%, #3a1c63);
     --color-hover-link-bg: rgb(126 121 0 / 12%);
+    --color-quote-bg: color-mix(in srgb, var(--color-side-bg) 33%, transparent);
     --side-box-shadow: 0 0 5px 5px rgb(213 193 233 / 60%);
 }
 
@@ -117,6 +119,14 @@ h3 {
 
 h4 {
     font-size: var(--font-h4);
+}
+
+blockquote {
+    border-left-width: 0.25rem;
+    border-left-style: solid;
+    border-left-color: var(--color-text);
+    padding-left: 0.5rem;
+    background: var(--color-quote-bg);
 }
 
 a:link,
