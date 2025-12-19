@@ -1,6 +1,7 @@
 // --backlinkprefix=<prefix>
 // --localbacklinks : Configure backlinks for local browsing
 // --skipcontent : Skips converting page content
+// --embedassets : Embed article assets into the generated HTML
 // --dryrun : Skips writing to disk
 
 import fs from "fs"
@@ -34,6 +35,7 @@ if (!fs.existsSync(outputDir))
 const skipContent = process.argv.includes("--skipcontent")
 const dryRun = process.argv.includes("--dryrun")
 const localbackLinks = process.argv.includes("--localbacklinks")
+const embedAssets = process.argv.includes("--embedassets")
 
 const backlinkPrefixArg = process.argv.find(arg => arg.startsWith("--backlinkprefix="))
 if (!backlinkPrefixArg && !localbackLinks)
@@ -113,10 +115,12 @@ function getContent(path) {
         "-f", "markdown+wikilinks_title_after_pipe+lists_without_preceding_blankline",
         "-t", "html",
         `--resource-path=${assetsDir}`,
-        "--embed-resources",
         "--wrap=preserve",
         "--syntax-highlighting=none"
     ];
+
+    if (embedAssets)
+        args.push("--embed-resources")
 
     const proc = spawnSync("pandoc", args, {
         input: preprocessMarkdown(fs.readFileSync(path, "utf8")),
@@ -219,7 +223,7 @@ function processToPages(nodes, htmlTemplate, wikilinkDictinary) {
             html("title").text(node.title)
             html("#page_title").text(node.title)
             html(`a.navtree[nav-title='${node.title.replaceAll(/'/g, "\\'")}']`).attr("selected", true)
-            html(`#page_content`).append(node.content)
+            html("#page_content").append(node.content)
             html("pre").prepend(CODE_COPY_BUTTON_HTML)
 
             for (let e of html("a.wikilink")) {
@@ -230,6 +234,14 @@ function processToPages(nodes, htmlTemplate, wikilinkDictinary) {
                     throw new Error(`Href not found for wikilink title: ${title}`)
 
                 e.attr("href", href)
+            }
+
+            if (!embedAssets) {
+                const k = html("img.wikilink,video.wikilink")
+                for (const e of k) {
+                    const elem = html(e)
+                    elem.attr("src", `${backlinkPrefix}/_assets/${elem.attr("src")}`)
+                }
             }
 
             node.content = html.html()
@@ -265,4 +277,7 @@ if (!dryRun) {
 
     for (const resource of RESOURCES_TO_COPY)
         fs.copyFileSync(`${resourceDir}/${resource}`, `${outputDir}/${resource}`)
+
+    if (!embedAssets)
+        fs.cpSync(assetsDir, `${outputDir}/_assets`, { recursive: true })
 }
