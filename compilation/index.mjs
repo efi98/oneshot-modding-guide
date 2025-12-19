@@ -29,8 +29,9 @@ const vaultDir = `${rootDir}/obsidian`
 const assetsDir = `${vaultDir}/Assets`
 
 const outputDir = path.resolve("./dist")
-if (!fs.existsSync(outputDir))
-    fs.mkdirSync(outputDir)
+if (fs.existsSync(outputDir))
+    fs.rmSync(outputDir, { recursive: true })
+fs.mkdirSync(outputDir)
 
 const skipContent = process.argv.includes("--skipcontent")
 const dryRun = process.argv.includes("--dryrun")
