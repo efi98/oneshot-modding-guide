@@ -100,11 +100,6 @@ p {
     font-size: var(--font-p);
 }
 
-li {
-    white-space: pre-wrap;
-    font-size: var(--font-p);
-}
-
 h1, h2, h3, h4, h5, h6 {
     color: var(--color-heading);
     margin-bottom: 0;
@@ -237,6 +232,11 @@ ul.navtree li span.navtree {
 
 ul.navtree li.navtree.parent a.navtree {
     /*padding-left: 0.8rem;*/
+}
+
+main.content li {
+    white-space: pre-wrap;
+    font-size: var(--font-p);
 }
 
 .navtree.parent > a::before {
