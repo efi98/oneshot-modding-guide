@@ -149,7 +149,7 @@ code {
     background: var(--color-code-bg);
     padding: 0 4px;
     margin: 0 -4px;
-    height: 20rem;
+    max-height: 20rem;
 }
 
 .copy-code-block-button {
