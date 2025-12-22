@@ -1,22 +1,23 @@
 This page contains useful information for players, which modders should also know about.
 
-## In Game Timer
-You can enable the in game speedrun timer by adding a file named `igt.ini` next to the game's `.exe`.
-
-
 ## Rebinding Controls
 You can rebind your controls by pressing `F1` in the game.
 
 
+## In Game Timer
+You can enable an in game speedrun timer by adding a file named `igt.ini` next to the game's `.exe`.
+Useful for speedrunning.
+
+
 ## True Save Reset
-1) Navigate to `%appdata%/Oneshot`
-2) Delete `save.dat` and `p-settings.dat`
-3) Disable cloud sync if playing the game/mod through Steam
+1) Disable Steam cloud sync if playing the game/mod through Steam
+2) Navigate to `%appdata%/Oneshot`
+3) Delete `save.dat`, `p-settings.dat`, and the `save_backups` folder
 
 Mods may have a different save directory, or not have a save at all.
 For example:
-- **Fading Memory:** `%appdata%/OSFM`, requires disabling Steam cloud sync
-- **Frostide:** `%appdata%/Oneshot_frostide` 
+- **Fading Memory:** `%appdata%/OSFM`
+- **Frostide:** `%appdata%/Oneshot_frostide`
 - **Metamorphosis:** Doesn't save
 
 
@@ -29,8 +30,8 @@ See [[Save Directory]] if you're a mod maker - It's very important.
 
 
 ## Save Generator
-hat_kid made a web page where you can generate a vanilla OneShot save file at certain states and/or a different player name.
-Available [here](https://hatkid.is-a.dev/OneShot-SaveMaker/p-settings-generate.html).
+Want to replay Solstice or change your in-game name?
+You can generate a save file with a certain name or at a certain state using [hat_kid's save generator](https://hatkid.is-a.dev/OneShot-SaveMaker/p-settings-generate.html).
 
 
 ## Installing Mods
